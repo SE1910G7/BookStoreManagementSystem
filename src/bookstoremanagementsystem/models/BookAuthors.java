@@ -20,4 +20,16 @@ public class BookAuthors {
         this.bookID = bookID;
         this.authorID = authorID;
     }
+
+    public String getBookAuthorId() {
+        return bookAuthorId;
+    }
+
+    public String getBookID() {
+        return bookID;
+    }
+
+    public String getAuthorID() {
+        return authorID;
+    }
 }
