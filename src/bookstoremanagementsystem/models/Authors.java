@@ -11,11 +11,27 @@ package bookstoremanagementsystem.models;
  */
 public class Authors {
 
-    String authorID;
-    String fullName;
+    private String authorID;
+    private String fullName;
 
     public Authors(String authorID, String fullName) {
         this.authorID = authorID;
+        this.fullName = fullName;
+    }
+
+    public String getAuthorID() {
+        return authorID;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setAuthorID(String authorID) {
+        this.authorID = authorID;
+    }
+
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 }
