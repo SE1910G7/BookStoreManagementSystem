@@ -132,6 +132,9 @@ public class CartItemsManager implements ICartItems {
     }
 
     public boolean isCartItemIdExists(String updateID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        // Tìm thấy ID
+        // Không tìm thấy
+        
+    return cartItemsList.stream().anyMatch((item) -> (item.getCartItemId().equals(updateID))); 
+}
 }
