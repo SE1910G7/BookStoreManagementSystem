@@ -1,0 +1,2 @@
+Accounts(ACC12345, John Doe, admin@gmail.com, abc123, 0123456789, "123 Main Street,New York- NY", "Admin", 20/10/2024)
+Accounts(ACC12346, Zoe Doe, user1@gmail.com, abc123, 0123456799, "144 Street,New York- NY", "User", 10/10/2024)
