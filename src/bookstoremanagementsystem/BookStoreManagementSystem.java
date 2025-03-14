@@ -5,6 +5,9 @@
  */
 package bookstoremanagementsystem;
 
+import bookstoremanagementsystem.models.CartItems;
+import bookstoremanagementsystem.services.CartItemsManager;
+import java.util.InputMismatchException;
 import bookstoremanagementsystem.interfaces.IAccount;
 import bookstoremanagementsystem.interfaces.IAuthors;
 import bookstoremanagementsystem.interfaces.IGenres;
@@ -18,16 +21,168 @@ import bookstoremanagementsystem.services.MenuManager;
 import bookstoremanagementsystem.services.MenuManager.LogInForm;
 import java.util.Scanner;
 
-/**
- *
- * @author mummykiara
- */
 public class BookStoreManagementSystem {
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
+        CartItemsManager manager = new CartItemsManager();
+        try (Scanner scanner = new Scanner(System.in)) {
+            int choice;
+            
+            do {
+                System.out.println("\n=== CART ITEMS MANAGEMENT ===");
+                System.out.println("1. Add Cart Item");
+                System.out.println("2. Display Cart Items");
+                System.out.println("3. Update Cart Item");
+                System.out.println("4. Delete Cart Item");
+                System.out.println("5. Save Cart Items to File");
+                System.out.println("6. Load Cart Items from File");
+                System.out.println("7. Search Cart Items");
+                System.out.println("8. Exit");
+                System.out.print("Enter your choice: ");
+                
+                // Xử lý nhập số nguyên an toàn
+                while (true) {
+                    try {
+                        choice = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline
+                        break;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input! Please enter an integer.");
+                        scanner.next(); // Xóa dữ liệu đầu vào không hợp lệ
+                    }
+                }
+                
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter Cart Item ID: ");
+                        String id = scanner.nextLine();
+                        if (manager.isCartItemIdExists(id)) {
+                            System.out.println("Cart Item ID already exists! Please enter a unique ID.");
+                            break;
+                        }
+                        System.out.print("Enter Cart ID: ");
+                        String cartId = scanner.nextLine();
+                        System.out.print("Enter Book ID: ");
+                        String bookId = scanner.nextLine();
+                        
+                        int quantity = 0;
+                        double price = 0.0;
+                        
+                        // Kiểm tra nhập số nguyên an toàn
+                        while (true) {
+                            try {
+                                System.out.print("Enter Quantity: ");
+                                quantity = scanner.nextInt();
+                                scanner.nextLine(); // Consume newline
+                                if (quantity < 1) {
+                                    System.out.println("Quantity must be greater than 0. Try again!");
+                                    continue;
+                                }
+                                break;
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid input! Please enter a valid integer for quantity.");
+                                scanner.next();
+                            }
+                        }
+                        
+                        // Kiểm tra nhập số thực an toàn
+                        while (true) {
+                            try {
+                                System.out.print("Enter Price: ");
+                                price = scanner.nextDouble();
+                                scanner.nextLine();
+                                if (price < 0) {
+                                    System.out.println("Price must be a positive number. Try again!");
+                                    continue;
+                                }
+                                break;
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid input! Please enter a valid decimal number for price.");
+                                scanner.next();
+                            }
+                        }
+                        
+                        manager.addCartItem(new CartItems(id, cartId, bookId, quantity, price));
+                        break;
+                        
+                    case 2:
+                        manager.displayCartItems();
+                        break;
+                        
+                    case 3:
+                        System.out.print("Enter Cart Item ID to update: ");
+                        String updateID = scanner.nextLine();
+                        if (!manager.isCartItemIdExists(updateID)) {
+                            System.out.println("Cart Item ID not found!");
+                            break;
+                        }
+                        
+                        int newQuantity = 0;
+                        double newPrice = 0.0;
+                        
+                        while (true) {
+                            try {
+                                System.out.print("Enter new Quantity: ");
+                                newQuantity = scanner.nextInt();
+                                scanner.nextLine();
+                                if (newQuantity < 1) {
+                                    System.out.println("Quantity must be greater than 0. Try again!");
+                                    continue;
+                                }
+                                break;
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid input! Please enter a valid integer for quantity.");
+                                scanner.next();
+                            }
+                        }
+                        
+                        while (true) {
+                            try {
+                                System.out.print("Enter new Price: ");
+                                newPrice = scanner.nextDouble();
+                                scanner.nextLine();
+                                if (newPrice < 0) {
+                                    System.out.println("Price must be a positive number. Try again!");
+                                    continue;
+                                }
+                                break;
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid input! Please enter a valid decimal number for price.");
+                                scanner.next();
+                            }
+                        }
+                        
+                        manager.updateCartItem(updateID, newQuantity, newPrice);
+                        break;
+                        
+                    case 4:
+                        System.out.print("Enter Cart Item ID to delete: ");
+                        String deleteID = scanner.nextLine();
+                        manager.deleteCartItem(deleteID);
+                        break;
+                        
+                    case 5:
+                        manager.saveCartItemsToFile();
+                        break;
+                        
+                    case 6:
+                        manager.loadCartItemsFromFile();
+                        break;
+                        
+                    case 7:
+                        System.out.print("Enter keyword to search: ");
+                        String searchKeyword = scanner.nextLine();
+                        manager.searchCartItems(searchKeyword);
+                        break;
+                        
+                    case 8:
+                        System.out.println("Exiting...");
+                        break;
+                        
+                    default:
+                        System.out.println("Invalid choice! Please try again.");
+                }
+            } while (choice != 8);
+        }
         //Diem Tran Code main
 //        try (Scanner scanner = new Scanner(System.in)) {
 //            IAuthors authorManager = new AuthorManager();
@@ -184,5 +339,4 @@ public class BookStoreManagementSystem {
         }
 
     }
-
 }

@@ -24,4 +24,46 @@ public class CartItems {
         this.quantity = quantity;
         this.price = price;
     }
+    public String getCartItemId() {
+        return cartItemId;
+    }
+
+    public void setCartItemId(String cartItemId) {
+        this.cartItemId = cartItemId;
+    }
+
+    public String getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(String cartId) {
+        this.cartId = cartId;
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 }
+
+
+
