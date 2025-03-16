@@ -21,4 +21,30 @@ public class Genres {
         this.description = description;
     }
 
+    public String getGenreId() {
+        return genreId;
+    }
+
+    public String getGenreName() {
+        return genreName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setGenreId(String genreId) {
+        this.genreId = genreId;
+    }
+
+    public void setGenreName(String genreName) {
+        this.genreName = genreName;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+     
+
 }
