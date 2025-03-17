@@ -9,6 +9,12 @@ import bookstoremanagementsystem.interfaces.IAuthors;
 import bookstoremanagementsystem.models.BookAuthors;
 import bookstoremanagementsystem.services.AuthorManager;
 import bookstoremanagementsystem.services.BookAuthorsManager;
+import bookstoremanagementsystem.services.PublisherManager;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -21,93 +27,40 @@ public class BookStoreManagementSystem {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //Diem Tran Code main
-        try (Scanner scanner = new Scanner(System.in)) {
-            IAuthors authorManager = new AuthorManager();
+        PublisherManager publisherService = new PublisherManager();
+        String inputFile = "input.txt";
+        String outputFile = "output.txt";
 
-            int choice;
-            String authorID, fullName, searchInput, newAuthorID, newFullName;
-            do {
-                System.out.println("**************************************");
-                System.out.println("!! AUTHOR MANAGEMENT !!");
-                System.out.println("1. Add Author");
-                System.out.println("2. Display Authors");
-                System.out.println("3. Sort by Author Name");
-                System.out.println("4. Search Author");
-                System.out.println("5. Delete Author");
-                System.out.println("6. Edit Author");
-                System.out.println("7. Exit");
-                System.out.print("Enter Option (1-7): ");
-                choice = scanner.nextInt();
-                scanner.nextLine();
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFile));
+             BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile, true))) { 
+
+            int T = Integer.parseInt(br.readLine().trim()); 
+            StringBuilder outputBuffer = new StringBuilder();
+
+            for (int i = 0; i < T; i++) {
+                String[] command = br.readLine().split(" ", 3);
+                int choice = Integer.parseInt(command[0]);
 
                 switch (choice) {
-                    case 1:
-                        System.out.print("Enter Author ID: ");
-                        authorID = scanner.nextLine();
-                        System.out.print("Enter Author Full Name: ");
-                        fullName = scanner.nextLine();
-                        authorManager.addAuthor(authorID, fullName);
+                    case 1: 
+                        publisherService.addPublisher(command[1], command[2], outputBuffer);
                         break;
-                    case 2:
-                        authorManager.displayAuthors();
+                    case 2: 
+                        publisherService.viewPublishers(outputBuffer);
                         break;
-                    case 3:
-                        authorManager.sortAuthors();
+                    case 3: 
+                        publisherService.updatePublisher(command[1], command[2], outputBuffer);
                         break;
-                    case 4:
-                        System.out.print("Enter Author Name or ID to search: ");
-                        searchInput = scanner.nextLine();
-                        authorManager.searchAuthor(searchInput);
-                        break;
-                    case 5:
-                        System.out.print("Enter Author Name or ID to delete: ");
-                        searchInput = scanner.nextLine();
-                        authorManager.deleteAuthor(searchInput);
-                        break;
-                    case 6:
-                        System.out.print("Enter Author Name or ID to edit: ");
-                        searchInput = scanner.nextLine();
-                        System.out.print("Enter new Author ID: ");
-                        newAuthorID = scanner.nextLine();
-                        System.out.print("Enter new Author Full Name: ");
-                        newFullName = scanner.nextLine();
-                        authorManager.editAuthor(searchInput, newAuthorID, newFullName);
-                        break;
-                    case 7:
-                        System.out.println("Exiting...");
-                        authorManager.saveAuthorsToFile();
+                    case 4: 
+                        publisherService.deletePublisher(command[1], outputBuffer);
                         break;
                     default:
-                        System.out.println("Invalid option. Try again.");
+                        outputBuffer.append("Invalid Command!\n");
                 }
-            } while (choice != 7);
+            }
+            bw.write(outputBuffer.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        //----------------------------------------------------------------------------
-        //Tai Code main
-        BookAuthorsManager service = new BookAuthorsManager();
-
-        // Adding authors
-        service.addAuthor(new BookAuthors("1", "101", "201"));
-        service.addAuthor(new BookAuthors("2", "102", "202"));
-
-        // Viewing authors
-        service.view();
-
-        // Updating an author
-        service.updateAuthor("1", new BookAuthors("1", "101", "203"));
-
-        // Viewing after update
-        service.view();
-
-        // Deleting an author
-        service.deleteAuthor("2");
-
-        // Viewing after delete
-        service.view();
-        //----------------------------------------------------------------------------
-        
     }
-
 }
