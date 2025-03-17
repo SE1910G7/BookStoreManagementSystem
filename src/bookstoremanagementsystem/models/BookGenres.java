@@ -7,7 +7,7 @@ package bookstoremanagementsystem.models;
 
 /**
  *
- * @author mummykiara
+ * @author PC
  */
 public class BookGenres {
 
@@ -20,4 +20,30 @@ public class BookGenres {
         this.bookId = bookId;
         this.genreId = genreId;
     }
+
+    public String getBookGenresId() {
+        return bookGenresId;
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public String getGenreId() {
+        return genreId;
+    }
+
+    public void setBookGenresId(String bookGenresId) {
+        this.bookGenresId = bookGenresId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+    }
+
+    public void setGenreId(String genreId) {
+        this.genreId = genreId;
+    }
+    
+    
 }

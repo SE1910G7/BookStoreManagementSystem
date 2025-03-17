@@ -5,108 +5,29 @@
  */
 package bookstoremanagementsystem;
 
-import bookstoremanagementsystem.models.CartItems;
-import bookstoremanagementsystem.services.CartItemsManager;
-import java.util.InputMismatchException;
-import bookstoremanagementsystem.interfaces.IAccount;
-import bookstoremanagementsystem.interfaces.IAuthors;
-import bookstoremanagementsystem.interfaces.IGenres;
-import bookstoremanagementsystem.interfaces.IMenu;
-import bookstoremanagementsystem.models.BookAuthors;
-import bookstoremanagementsystem.services.AccountManager;
-import bookstoremanagementsystem.services.AuthorManager;
-import bookstoremanagementsystem.services.BookAuthorsManager;
-import bookstoremanagementsystem.services.GenresManager;
-import bookstoremanagementsystem.services.MenuManager;
-import bookstoremanagementsystem.services.MenuManager.LogInForm;
-import java.io.IOException;
-import java.util.Scanner;
-
+//import bookstoremanagementsystem.models.CartItems;
+//import bookstoremanagementsystem.services.CartItemsManager;
+//import java.util.InputMismatchException;
+//import bookstoremanagementsystem.interfaces.IAccount;
+//import bookstoremanagementsystem.interfaces.IAuthors;
+//import bookstoremanagementsystem.interfaces.IGenres;
+//import bookstoremanagementsystem.interfaces.IMenu;
+//import bookstoremanagementsystem.models.BookAuthors;
+//import bookstoremanagementsystem.services.AccountManager;
+//import bookstoremanagementsystem.services.AuthorManager;
+//import bookstoremanagementsystem.services.BookAuthorsManager;
+//import bookstoremanagementsystem.services.GenresManager;
+//import bookstoremanagementsystem.services.MenuManager;
+//import bookstoremanagementsystem.services.MenuManager.LogInForm;
+//import java.util.Scanner;
+//import bookstoremanagementsystem.interfaces.IBookGenres;
+//import bookstoremanagementsystem.models.BookGenres;
+//import bookstoremanagementsystem.services.AccountManager;
+//import bookstoremanagementsystem.services.BookGenresManager;
+//
 public class BookStoreManagementSystem {
 
-    public static void main(String[] args) throws IOException {
-
-        Scanner scanner = new Scanner(System.in);
-        AccountManager accountManager = new AccountManager();
-
-        int choice;
-        do {
-            System.out.println("\n=== ACCOUNT MANAGEMENT ===");
-            System.out.println("1. Add Account");
-            System.out.println("2. Display Accounts");
-            System.out.println("3. Log In");
-            System.out.println("4. Delete Account");
-            System.out.println("5. Update Password");
-            System.out.println("6. Exit");
-            System.out.print("Enter your choice: ");
-
-            choice = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter Account ID: ");
-                    String accountID = scanner.nextLine();
-                    System.out.print("Enter Full Name: ");
-                    String fullName = scanner.nextLine();
-                    System.out.print("Enter Email: ");
-                    String email = scanner.nextLine();
-                    System.out.print("Enter Password: ");
-                    String password = scanner.nextLine();
-                    System.out.print("Enter Phone Number: ");
-                    String phoneNumber = scanner.nextLine();
-                    System.out.print("Enter Address: ");
-                    String address = scanner.nextLine();
-                    System.out.print("Enter Role (Admin/User): ");
-                    String role = scanner.nextLine();
-
-                    accountManager.addAccount(accountID, fullName, email, password, phoneNumber, address, role);
-                    break;
-                case 2:
-                    accountManager.displayAccounts();
-                    break;
-
-                case 3:
-                    System.out.print("Enter Email: ");
-                    email = scanner.nextLine();
-                    System.out.print("Enter Password: ");
-                    password = scanner.nextLine();
-                    int result = accountManager.LogIn(email, password);
-                    if (result == 1) {
-                        System.out.println("Login successful! Welcome, Admin.");
-                    } else if (result == 0) {
-                        System.out.println("Login successful! Welcome, User.");
-                    } else {
-                        System.out.println("Incorrect email or password.");
-                    }
-                    break;
-                case 4:
-                    System.out.print("Enter Email to delete: ");
-                    email = scanner.nextLine();
-                    accountManager.deleteAccount(email);
-                    System.out.println("Account deleted successfully!");
-                    break;
-
-                case 5:
-                    System.out.print("Enter Email: ");
-                    email = scanner.nextLine();
-                    System.out.print("Enter New Password: ");
-                    String newPassword = scanner.nextLine();
-                    accountManager.updatePassword(email, newPassword);
-                    System.out.println("Password updated successfully!");
-                    break;
-
-                case 6:
-                    System.out.println("Exiting Account Management...");
-                    break;
-
-                default:
-                    System.out.println("Invalid choice! Please try again.");
-            }
-        } while (choice != 6);
-    }
-
-}
+    public static void main(String[] args) {
 //        CartItemsManager manager = new CartItemsManager();
 //        try (Scanner scanner = new Scanner(System.in)) {
 //            int choice;
@@ -422,5 +343,142 @@ public class BookStoreManagementSystem {
 //            System.out.println("Exception: " + e);
 //        }
 //
-//    }
-//}
+//    
+// ------------------------------------
+// Ngoc Anh Code main
+//try (Scanner scanner = new Scanner(System.in)) {
+//            IBookGenres bookGenresManager = new BookGenresManager();
+//
+//            int choice;
+//            String bookGenresId, bookId, genreId;
+//            do {
+//                System.out.println("**************************************");
+//                System.out.println("!! BOOK GENRES MANAGEMENT !!");
+//                System.out.println("1. Add Book Genre");
+//                System.out.println("2. View Book Genres");
+//                System.out.println("3. Update Book Genre");
+//                System.out.println("4. Delete Book Genre");
+//                System.out.println("5. Exit");
+//                System.out.print("Enter Option (1-5): ");
+//                choice = scanner.nextInt();
+//                scanner.nextLine();
+//
+//                switch (choice) {
+//                    case 1:
+//                        System.out.print("Enter Book Genre ID: ");
+//                        bookGenresId = scanner.nextLine();
+//                        System.out.print("Enter Book ID: ");
+//                        bookId = scanner.nextLine();
+//                        System.out.print("Enter Genre ID: ");
+//                        genreId = scanner.nextLine();
+//                        bookGenresManager.addBookGenre(new BookGenres(bookGenresId, bookId, genreId));
+//                        break;
+//                    case 2:
+//                        bookGenresManager.view();
+//                        break;
+//                    case 3:
+//                        System.out.print("Enter Book Genre ID to update: ");
+//                        bookGenresId = scanner.nextLine();
+//                        System.out.print("Enter new Book ID: ");
+//                        bookId = scanner.nextLine();
+//                        System.out.print("Enter new Genre ID: ");
+//                        genreId = scanner.nextLine();
+//                        bookGenresManager.updateBookGenre(bookGenresId, new BookGenres(bookGenresId, bookId, genreId));
+//                        break;
+//                    case 4:
+//                        System.out.print("Enter Book Genre ID to delete: ");
+//                        bookGenresId = scanner.nextLine();
+//                        bookGenresManager.deleteBookGenre(bookGenresId);
+//                        break;
+//                    case 5:
+//                        System.out.println("Exiting...");
+//                        break;
+//                    default:
+//                        System.out.println("Invalid option. Try again.");
+//                }
+//            } while (choice != 5);
+//        }
+//        
+//        // ------------------------------------
+//        // My Code main
+//        Scanner scanner = new Scanner(System.in);
+//        AccountManager accountManager = new AccountManager();
+//
+//        int choice;
+//        do {
+//            System.out.println("\n=== ACCOUNT MANAGEMENT ===");
+//            System.out.println("1. Add Account");
+//            System.out.println("2. Display Accounts");
+//            System.out.println("3. Log In");
+//            System.out.println("4. Delete Account");
+//            System.out.println("5. Update Password");
+//            System.out.println("6. Exit");
+//            System.out.print("Enter your choice: ");
+//
+//            choice = scanner.nextInt();
+//            scanner.nextLine();
+//
+//            switch (choice) {
+//                case 1:
+//                    System.out.print("Enter Account ID: ");
+//                    String accountID = scanner.nextLine();
+//                    System.out.print("Enter Full Name: ");
+//                    String fullName = scanner.nextLine();
+//                    System.out.print("Enter Email: ");
+//                    String email = scanner.nextLine();
+//                    System.out.print("Enter Password: ");
+//                    String password = scanner.nextLine();
+//                    System.out.print("Enter Phone Number: ");
+//                    String phoneNumber = scanner.nextLine();
+//                    System.out.print("Enter Address: ");
+//                    String address = scanner.nextLine();
+//                    System.out.print("Enter Role (Admin/User): ");
+//                    String role = scanner.nextLine();
+//
+//                    accountManager.addAccount(accountID, fullName, email, password, phoneNumber, address, role);
+//                    break;
+//                case 2:
+//                    accountManager.displayAccounts();
+//                    break;
+//
+//                case 3:
+//                    System.out.print("Enter Email: ");
+//                    email = scanner.nextLine();
+//                    System.out.print("Enter Password: ");
+//                    password = scanner.nextLine();
+//                    int result = accountManager.LogIn(email, password);
+//                    if (result == 1) {
+//                        System.out.println("Login successful! Welcome, Admin.");
+//                    } else if (result == 0) {
+//                        System.out.println("Login successful! Welcome, User.");
+//                    } else {
+//                        System.out.println("Incorrect email or password.");
+//                    }
+//                    break;
+//                case 4:
+//                    System.out.print("Enter Email to delete: ");
+//                    email = scanner.nextLine();
+//                    accountManager.deleteAccount(email);
+//                    System.out.println("Account deleted successfully!");
+//                    break;
+//
+//                case 5:
+//                    System.out.print("Enter Email: ");
+//                    email = scanner.nextLine();
+//                    System.out.print("Enter New Password: ");
+//                    String newPassword = scanner.nextLine();
+//                    accountManager.updatePassword(email, newPassword);
+//                    System.out.println("Password updated successfully!");
+//                    break;
+//
+//                case 6:
+//                    System.out.println("Exiting Account Management...");
+//                    break;
+//
+//                default:
+//                    System.out.println("Invalid choice! Please try again.");
+//            }
+//        } while (choice != 6);
+
+    }
+}
