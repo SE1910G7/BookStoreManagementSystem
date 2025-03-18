@@ -3,17 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Spring2025/pro192/ASSIGNMETPRO/ASM/CRUDCartItems/BookStoreManagementSystem/src/bookstoremanagementsystem/services/CartItemsManager.java</file>
-            <file>file:/D:/Spring2025/pro192/ASSIGNMETPRO/ASM/CRUDCartItems/BookStoreManagementSystem/src/bookstoremanagementsystem/BookStoreManagementSystem.java</file>
-            <file>file:/D:/Spring2025/pro192/ASSIGNMETPRO/ASM/CRUDCartItems/BookStoreManagementSystem/src/bookstoremanagementsystem/models/CartItems.java</file>
-            <file>file:/D:/Spring2025/pro192/ASSIGNMETPRO/ASM/CRUDCartItems/BookStoreManagementSystem/src/bookstoremanagementsystem/interfaces/ICartItems.java</file>
-
-            <file>file:/T:/SP25/PRO192/ASM/Task2/Version2/BookStoreManagementSystem/src/bookstoremanagementsystem/models/Genres.java</file>
-            <file>file:/T:/SP25/PRO192/ASM/Task2/Version2/BookStoreManagementSystem/src/bookstoremanagementsystem/services/GenresManager.java</file>
-            <file>file:/T:/SP25/PRO192/ASM/Task2/Version2/BookStoreManagementSystem/src/bookstoremanagementsystem/BookStoreManagementSystem.java</file>
-            <file>file:/T:/SP25/PRO192/ASM/Task2/Version2/BookStoreManagementSystem/src/bookstoremanagementsystem/services/MenuManager.java</file>
-            <file>file:/T:/SP25/PRO192/ASM/Task2/Version2/BookStoreManagementSystem/src/bookstoremanagementsystem/interfaces/IGenres.java</file>
-
+            <file>file:/D:/Spring2025/pro192/ASSIGNMETPRO/ASM/cart/BookStoreManagementSystem/src/bookstoremanagementsystem/models/CartItems.java</file>
+            <file>file:/D:/Spring2025/pro192/ASSIGNMETPRO/ASM/cart/BookStoreManagementSystem/src/bookstoremanagementsystem/interfaces/ICarts.java</file>
+            <file>file:/D:/Spring2025/pro192/ASSIGNMETPRO/ASM/cart/BookStoreManagementSystem/src/bookstoremanagementsystem/services/CartManager.java</file>
+            <file>file:/D:/Spring2025/pro192/ASSIGNMETPRO/ASM/cart/BookStoreManagementSystem/src/bookstoremanagementsystem/BookStoreManagementSystem.java</file>
+            <file>file:/D:/Spring2025/pro192/ASSIGNMETPRO/ASM/cart/BookStoreManagementSystem/src/bookstoremanagementsystem/models/Carts.java</file>
         </group>
     </open-files>
 </project-private>
