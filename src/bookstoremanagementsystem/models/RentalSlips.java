@@ -31,4 +31,62 @@ public class RentalSlips {
         this.createdAt = createdAt;
         this.totalPrice = totalPrice;
     }
+
+    public String getRentFormId() {
+        return rentFormId;
+    }
+
+    public void setRentFormId(String rentFormId) {
+        this.rentFormId = rentFormId;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+    }
+
+    public LocalDate getStartRentBookDate() {
+        return startRentBookDate;
+    }
+
+    public void setStartRentBookDate(LocalDate startRentBookDate) {
+        this.startRentBookDate = startRentBookDate;
+    }
+
+    public LocalDate getEndRentBookDate() {
+        return endRentBookDate;
+    }
+
+    public void setEndRentBookDate(LocalDate endRentBookDate) {
+        this.endRentBookDate = endRentBookDate;
+    }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+    
+    
 }
