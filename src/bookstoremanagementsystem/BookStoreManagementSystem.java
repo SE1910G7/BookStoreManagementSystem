@@ -24,7 +24,10 @@ package bookstoremanagementsystem;
 //import bookstoremanagementsystem.models.BookGenres;
 //import bookstoremanagementsystem.services.AccountManager;
 //import bookstoremanagementsystem.services.BookGenresManager;
-//
+import bookstoremanagementsystem.services.BookingTransactionsManager;
+import bookstoremanagementsystem.services.RentalSlipTransactionsManager;
+import java.io.*;
+
 public class BookStoreManagementSystem {
 
     public static void main(String[] args) {
@@ -479,6 +482,49 @@ public class BookStoreManagementSystem {
 //                    System.out.println("Invalid choice! Please try again.");
 //            }
 //        } while (choice != 6);
+//          //--------------------------------------------
+        BookingTransactionsManager bookingService = new BookingTransactionsManager();
+        RentalSlipTransactionsManager rentalService = new RentalSlipTransactionsManager();
 
+        String inputFile = "input.txt";
+        String outputFile = "output.txt";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFile));
+             BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile, true))) { // Append mode
+
+            int T = Integer.parseInt(br.readLine().trim()); // Number of commands
+            StringBuilder outputBuffer = new StringBuilder();
+
+            for (int i = 0; i < T; i++) {
+                String[] command = br.readLine().split(" ", 3);
+                int choice = Integer.parseInt(command[0]);
+
+                switch (choice) {
+                    case 1: // Add Booking Transaction
+                        bookingService.addBooking(command[1], command[2], outputBuffer);
+                        break;
+                    case 2: // View Booking Transactions
+                        bookingService.viewBookings(outputBuffer);
+                        break;
+                    case 3: // Delete Booking Transaction
+                        bookingService.deleteBooking(command[1], outputBuffer);
+                        break;
+                    case 4: // Add Rental Slip Transaction
+                        rentalService.addRentalSlip(command[1], command[2], outputBuffer);
+                        break;
+                    case 5: // View Rental Slip Transactions
+                        rentalService.viewRentalSlips(outputBuffer);
+                        break;
+                    case 6: // Delete Rental Slip Transaction
+                        rentalService.deleteRentalSlip(command[1], outputBuffer);
+                        break;
+                    default:
+                        outputBuffer.append("Invalid Command!\n");
+                }
+            }
+            bw.write(outputBuffer.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

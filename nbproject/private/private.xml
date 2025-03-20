@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/PRO192/Assighment/Task3/BookStoreManagementSystem/src/bookstoremanagementsystem/BookStoreManagementSystem.java</file>
-            <file>file:/C:/PRO192/Assighment/Task3/BookStoreManagementSystem/src/bookstoremanagementsystem/services/AccountManager.java</file>
-            <file>file:/C:/PRO192/Assighment/Task3/BookStoreManagementSystem/src/bookstoremanagementsystem/models/Accounts.java</file>
-            <file>file:/C:/PRO192/Assighment/Task3/BookStoreManagementSystem/src/bookstoremanagementsystem/interfaces/IAccount.java</file>
-            <file>file:/C:/PRO192/Assighment/Task3/BookStoreManagementSystem/src/bookstoremanagementsystem/interfaces/IAuthors.java</file>
+            <file>file:/D:/Task/TaiLTCRUD%20BookingTransactions%20+%20RentalSlipTransactions/src/bookstoremanagementsystem/BookStoreManagementSystem.java</file>
+            <file>file:/D:/Task/TaiLTCRUD%20BookingTransactions%20+%20RentalSlipTransactions/src/bookstoremanagementsystem/interfaces/CRUDBookingTransactions.java</file>
+            <file>file:/D:/Task/TaiLTCRUD%20BookingTransactions%20+%20RentalSlipTransactions/src/bookstoremanagementsystem/services/BookingTransactionsManager.java</file>
+            <file>file:/D:/Task/TaiLTCRUD%20BookingTransactions%20+%20RentalSlipTransactions/src/bookstoremanagementsystem/services/RentalSlipTransactionsManager.java</file>
+            <file>file:/D:/Task/TaiLTCRUD%20BookingTransactions%20+%20RentalSlipTransactions/src/bookstoremanagementsystem/interfaces/CRUDRentalSlipTransactions.java</file>
         </group>
     </open-files>
 </project-private>
