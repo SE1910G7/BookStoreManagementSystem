@@ -5,6 +5,27 @@
  */
 package bookstoremanagementsystem;
 
+import bookstoremanagementsystem.models.CartItems;
+import bookstoremanagementsystem.services.CartItemsManager;
+import java.util.InputMismatchException;
+import bookstoremanagementsystem.interfaces.IAccount;
+import bookstoremanagementsystem.interfaces.IAuthors;
+import bookstoremanagementsystem.interfaces.IGenres;
+import bookstoremanagementsystem.interfaces.IMenu;
+import bookstoremanagementsystem.models.BookAuthors;
+import bookstoremanagementsystem.models.OrderStatus;
+import bookstoremanagementsystem.models.Orders;
+import bookstoremanagementsystem.services.AccountManager;
+import bookstoremanagementsystem.services.AuthorManager;
+import bookstoremanagementsystem.services.BookAuthorsManager;
+import bookstoremanagementsystem.services.GenresManager;
+import bookstoremanagementsystem.services.MenuManager;
+import bookstoremanagementsystem.services.MenuManager.LogInForm;
+import bookstoremanagementsystem.services.OrderStatusManager;
+import bookstoremanagementsystem.services.OrdersManager;
+import java.util.Date;
+import java.util.Scanner;
+
 //import bookstoremanagementsystem.models.CartItems;
 //import bookstoremanagementsystem.services.CartItemsManager;
 //import java.util.InputMismatchException;
@@ -29,6 +50,7 @@ public class BookStoreManagementSystem {
     public static void main(String[] args) {
 
 //        CartItemsManager manager = new CartItemsManager();
+
 //        try (Scanner scanner = new Scanner(System.in)) {
 //            int choice;
 //            
@@ -624,6 +646,94 @@ CartManager cartManager = new CartManager();
                         System.out.println("Invalid choice! Please try again.");
                 }
             } while (choice != 8);
+          
+          // my code 
+          OrdersManager ordersManager = new OrdersManager();
+        OrderStatusManager statusManager = new OrderStatusManager();
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\n=== ORDER MANAGEMENT ===");
+            System.out.println("1. Add Order");
+            System.out.println("2. Display Orders");
+            System.out.println("3. Update Order");
+            System.out.println("4. Delete Order");
+            System.out.println("5. Add Order Status");
+            System.out.println("6. Display Order Statuses");
+            System.out.println("7. Update Order Status");
+            System.out.println("8. Delete Order Status");
+            System.out.println("9. Exit");
+            System.out.print("Enter your choice: ");
+            
+            while (!scanner.hasNextInt()) {
+                System.out.println("Invalid input! Please enter a number between 1 and 9.");
+                scanner.next(); // Consume invalid input
+            }
+            
+            choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Order ID: ");
+                    String orderId = scanner.nextLine();
+                    System.out.print("Enter Customer ID: ");
+                    String customerId = scanner.nextLine();
+                    System.out.print("Enter Order Status ID: ");
+                    String statusId = scanner.nextLine();
+                    Orders order = new Orders(orderId, customerId, new Date(), statusId);
+                    ordersManager.addOrder(order);
+                    break;
+                case 2:
+                    ordersManager.displayOrders();
+                    break;
+                case 3:
+                    System.out.print("Enter Order ID to update: ");
+                    String updateId = scanner.nextLine();
+                    System.out.print("Enter new Customer ID: ");
+                    String newCustomerId = scanner.nextLine();
+                    System.out.print("Enter new Status ID: ");
+                    String newStatusId = scanner.nextLine();
+                    Orders updatedOrder = new Orders(updateId, newCustomerId, new Date(), newStatusId);
+                    ordersManager.updateOrder(updateId, updatedOrder);
+                    break;
+                case 4:
+                    System.out.print("Enter Order ID to delete: ");
+                    String deleteId = scanner.nextLine();
+                    ordersManager.deleteOrder(deleteId);
+                    break;
+                case 5:
+                    System.out.print("Enter Status ID: ");
+                    String statusID = scanner.nextLine();
+                    System.out.print("Enter Status Name: ");
+                    String statusName = scanner.nextLine();
+                    OrderStatus status = new OrderStatus(statusID, statusName);
+                    statusManager.addStatus(status);
+                    break;
+                case 6:
+                    statusManager.displayStatuses();
+                    break;
+                case 7:
+                    System.out.print("Enter Status ID to update: ");
+                    String updateStatusID = scanner.nextLine();
+                    System.out.print("Enter new Status Name: ");
+                    String newStatusName = scanner.nextLine();
+                    OrderStatus updatedStatus = new OrderStatus(updateStatusID, newStatusName);
+                    statusManager.updateStatus(updateStatusID, updatedStatus);
+                    break;
+                case 8:
+                    System.out.print("Enter Status ID to delete: ");
+                    String deleteStatusID = scanner.nextLine();
+                    statusManager.deleteStatus(deleteStatusID);
+                    break;
+                case 9:
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice! Please enter a number between 1 and 9.");
+            }
+        } while (choice != 9);
         }
     }
 }
