@@ -24,6 +24,13 @@ public class CartItems {
         this.quantity = quantity;
         this.price = price;
     }
+
+    public CartItems(String itemId, String bookId, int quantity, double price) {
+    this.cartItemId = itemId;
+    this.bookId = bookId;
+    this.quantity = quantity;
+    this.price = price;
+}
     public String getCartItemId() {
         return cartItemId;
     }
@@ -63,7 +70,9 @@ public class CartItems {
     public void setPrice(double price) {
         this.price = price;
     }
-}
+ 
+    
+    }
 
 
-
+    

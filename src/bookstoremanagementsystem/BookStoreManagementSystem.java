@@ -20,17 +20,14 @@ package bookstoremanagementsystem;
 //import bookstoremanagementsystem.services.MenuManager;
 //import bookstoremanagementsystem.services.MenuManager.LogInForm;
 //import java.util.Scanner;
-//import bookstoremanagementsystem.interfaces.IBookGenres;
-//import bookstoremanagementsystem.models.BookGenres;
-//import bookstoremanagementsystem.services.AccountManager;
-//import bookstoremanagementsystem.services.BookGenresManager;
-import bookstoremanagementsystem.services.BookingTransactionsManager;
-import bookstoremanagementsystem.services.RentalSlipTransactionsManager;
-import java.io.*;
 
+/**
+ * Main class to manage carts and cart items.
+ */
 public class BookStoreManagementSystem {
 
     public static void main(String[] args) {
+
 //        CartItemsManager manager = new CartItemsManager();
 //        try (Scanner scanner = new Scanner(System.in)) {
 //            int choice;
@@ -525,6 +522,108 @@ public class BookStoreManagementSystem {
             bw.write(outputBuffer.toString());
         } catch (IOException e) {
             e.printStackTrace();
+
+/// Diem tran code 
+CartManager cartManager = new CartManager();
+        try (Scanner scanner = new Scanner(System.in)) {
+            int choice;
+            do {
+                System.out.println("\n=== CART MANAGEMENT ===");
+                System.out.println("1. Add Cart");
+                System.out.println("2. View All Carts");
+                System.out.println("3. Add Item to Cart");
+                System.out.println("4. View Items in a Cart");
+                System.out.println("5. Update Cart Item");
+                System.out.println("6. Remove Item from Cart");
+                System.out.println("7. Delete a Cart");
+                System.out.println("8. Exit");
+                System.out.print("Enter your choice: ");
+                choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
+                
+                switch (choice) {
+                    case 1: // Add a new cart
+                        System.out.print("Enter Cart ID: ");
+                        String cartId = scanner.nextLine();
+                        System.out.print("Enter Account ID: ");
+                        String accountId = scanner.nextLine();
+                        cartManager.addCart(new Carts(cartId, accountId)); 
+                        break;
+                        
+                    case 2: // View all carts
+                        cartManager.viewAllCarts();
+                        break;
+                        
+                    case 3: // Add item to a cart
+                        System.out.print("Enter Cart ID: ");
+                        cartId = scanner.nextLine();
+                        if (!cartManager.isCartExists(cartId)) {
+                            System.out.println("Cart not found!");
+                            break;
+                        }
+                        System.out.print("Enter Item ID: ");
+                        String itemId = scanner.nextLine();
+                        System.out.print("Enter Book ID: ");
+                        String bookId = scanner.nextLine();
+                        System.out.print("Enter Quantity: ");
+                        int quantity = scanner.nextInt();
+                        scanner.nextLine(); 
+                        System.out.print("Enter Price: ");
+                        double price = scanner.nextDouble();
+                        scanner.nextLine(); 
+                        cartManager.addItemToCart(cartId, new CartItems(itemId, cartId, bookId, quantity, price));
+                        break;
+                        
+                    case 4: 
+                        System.out.print("Enter Cart ID: ");
+                        cartId = scanner.nextLine();
+                        cartManager.viewItemsInCart(cartId);
+                        break;
+                        
+                    case 5: 
+                        System.out.print("Enter Cart ID: ");
+                        cartId = scanner.nextLine();
+                        if (!cartManager.isCartExists(cartId)) {
+                            System.out.println("Cart not found!");
+                            break;
+                        }
+                        System.out.print("Enter Item ID to update: ");
+                        itemId = scanner.nextLine();
+                        System.out.print("Enter new Quantity: ");
+                        quantity = scanner.nextInt();
+                        scanner.nextLine(); 
+                        System.out.print("Enter new Price: ");
+                        price = scanner.nextDouble();
+                        scanner.nextLine(); 
+                        cartManager.updateCartItem(cartId, itemId, quantity, price);
+                        break;
+                        
+                    case 6: 
+                        System.out.print("Enter Cart ID: ");
+                        cartId = scanner.nextLine();
+                        if (!cartManager.isCartExists(cartId)) {
+                            System.out.println("Cart not found!");
+                            break;
+                        }
+                        System.out.print("Enter Item ID to remove: ");
+                        itemId = scanner.nextLine();
+                        cartManager.removeItemFromCart(cartId, itemId);
+                        break;
+                        
+                    case 7:
+                        System.out.print("Enter Cart ID to delete: ");
+                        cartId = scanner.nextLine();
+                        cartManager.deleteCart(cartId);
+                        break;
+                        
+                    case 8:
+                        System.out.println("Exiting...");
+                        break;
+                        
+                    default:
+                        System.out.println("Invalid choice! Please try again.");
+                }
+            } while (choice != 8);
         }
     }
 }
