@@ -8,6 +8,11 @@
             <file>file:/D:/Spring2025/pro192/ASSIGNMETPRO/ASM/cart/BookStoreManagementSystem/src/bookstoremanagementsystem/services/CartManager.java</file>
             <file>file:/D:/Spring2025/pro192/ASSIGNMETPRO/ASM/cart/BookStoreManagementSystem/src/bookstoremanagementsystem/BookStoreManagementSystem.java</file>
             <file>file:/D:/Spring2025/pro192/ASSIGNMETPRO/ASM/cart/BookStoreManagementSystem/src/bookstoremanagementsystem/models/Carts.java</file>
+            <file>file:/D:/Task/TaiLTCRUD%20BookingTransactions%20+%20RentalSlipTransactions/src/bookstoremanagementsystem/BookStoreManagementSystem.java</file>
+            <file>file:/D:/Task/TaiLTCRUD%20BookingTransactions%20+%20RentalSlipTransactions/src/bookstoremanagementsystem/interfaces/CRUDBookingTransactions.java</file>
+            <file>file:/D:/Task/TaiLTCRUD%20BookingTransactions%20+%20RentalSlipTransactions/src/bookstoremanagementsystem/services/BookingTransactionsManager.java</file>
+            <file>file:/D:/Task/TaiLTCRUD%20BookingTransactions%20+%20RentalSlipTransactions/src/bookstoremanagementsystem/services/RentalSlipTransactionsManager.java</file>
+            <file>file:/D:/Task/TaiLTCRUD%20BookingTransactions%20+%20RentalSlipTransactions/src/bookstoremanagementsystem/interfaces/CRUDRentalSlipTransactions.java</file>
         </group>
     </open-files>
 </project-private>

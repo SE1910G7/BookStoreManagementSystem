@@ -1,0 +1,20 @@
+Added Booking: 001 - "Customer A - English Book"
+Added Booking: 002 - "Customer B - Chinese Book"
+--- Booking Transactions ---
+001 - "Customer A - English Book"
+002 - "Customer B - Chinese Book"
+----------------------------
+Added Rental Slip: 101 - "Rental book for Customer A"
+Added Rental Slip: 102 - "Rental book for Customer B"
+--- Rental Slip Transactions ---
+101 - "Rental book for Customer A"
+102 - "Rental book for Customer B"
+--------------------------------
+Deleted Booking: 001
+Deleted Rental Slip: 101
+--- Booking Transactions ---
+002 - "Customer B - Chinese Book"
+----------------------------
+--- Rental Slip Transactions ---
+102 - "Rental book for Customer B"
+--------------------------------
