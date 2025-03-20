@@ -1,0 +1,11 @@
+10
+1 001 "Customer A - English Book"
+1 002 "Customer B - Chinese Book"
+2
+4 101 "Rental book for Customer A"
+4 102 "Rental book for Customer B"
+5
+3 001
+6 101
+2
+5
