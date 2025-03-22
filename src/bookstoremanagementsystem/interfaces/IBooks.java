@@ -33,4 +33,5 @@ public interface IBooks {
     void showBookDetails(Book book);
     
     void showBookSearchResults(List<Book> list);
+    List<Book> getBooksList();
 }

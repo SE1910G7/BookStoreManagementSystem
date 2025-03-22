@@ -18,9 +18,9 @@ public interface IMenu {
     public void showAdminMenu();
 
     public void showUserMenu();
-    
+
     public RegisterForm showRegisterMenu();
-    
+
     public LogInForm showLogInMenu();
 
     //welcome menu
@@ -36,15 +36,18 @@ public interface IMenu {
 
     public void showAccountUpdateForm();
 
-     //author manager menu
+    //author manager menu
     public void showAuthorsMainMenu();
 
     public void showAuthorUpdateForm();
-    
-     //publisher manager menu
-     public void showPublishersMainMenu();
-     
-     //book manager menu
-     public void showBooksMainMenu();
+
+    //publisher manager menu
+    public void showPublishersMainMenu();
+
+    //book manager menu
+    public void showBooksMainMenu();
+
+    //Orders manager menu
+    void showOrdersMainMenu();
 
 }

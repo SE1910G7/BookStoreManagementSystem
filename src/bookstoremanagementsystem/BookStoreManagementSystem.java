@@ -13,12 +13,12 @@ import bookstoremanagementsystem.interfaces.IAuthors;
 import bookstoremanagementsystem.interfaces.IBooks;
 import bookstoremanagementsystem.interfaces.IGenres;
 import bookstoremanagementsystem.interfaces.IMenu;
+import bookstoremanagementsystem.interfaces.IOrders;
 import bookstoremanagementsystem.interfaces.IPublishers;
 import bookstoremanagementsystem.models.Accounts;
 import bookstoremanagementsystem.models.Book;
 import bookstoremanagementsystem.models.BookAuthors;
 import bookstoremanagementsystem.models.Genres;
-import bookstoremanagementsystem.models.OrderStatus;
 import bookstoremanagementsystem.models.Orders;
 import bookstoremanagementsystem.models.Publishers;
 import bookstoremanagementsystem.services.AccountManager;
@@ -29,7 +29,6 @@ import bookstoremanagementsystem.services.GenresManager;
 import bookstoremanagementsystem.services.MenuManager;
 import bookstoremanagementsystem.services.MenuManager.LogInForm;
 import bookstoremanagementsystem.services.MenuManager.RegisterForm;
-import bookstoremanagementsystem.services.OrderStatusManager;
 import bookstoremanagementsystem.services.OrdersManager;
 import bookstoremanagementsystem.services.PublisherManager;
 import java.time.LocalDate;
@@ -53,6 +52,7 @@ public class BookStoreManagementSystem {
         IBooks bookManager = new BookManager();
         IGenres genreManager = new GenresManager();
         IPublishers publisherManager = new PublisherManager();
+        IOrders orderManager = new OrdersManager();
 
         // loop main menu
         while (true) {
@@ -76,7 +76,13 @@ public class BookStoreManagementSystem {
                     boolean isAdminRunning = true;
                     while (isAdminRunning) {
                         menu.showAdminMenu();
-                        userChoice = sc.nextInt();
+                        try {
+                            userChoice = sc.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                            sc.nextLine();
+                            continue;
+                        }
 
                         switch (userChoice) {
                             // Account manager
@@ -85,7 +91,13 @@ public class BookStoreManagementSystem {
                                 while (isAccountMenuRunning) {
                                     menu.showAccountMainMenu();
                                     accountManager.LoadAccountProfile();
-                                    userChoice = sc.nextInt();
+                                    try {
+                                        userChoice = sc.nextInt();
+                                    } catch (InputMismatchException e) {
+                                        System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                        sc.nextLine();
+                                        continue;
+                                    }
 
                                     switch (userChoice) {
                                         case 1:
@@ -170,8 +182,8 @@ public class BookStoreManagementSystem {
 
                                             System.out.printf("%10sEnter Book Name: ", "");
                                             String newName = sc.nextLine();
-                                            
-                                           int year = currentYear;
+
+                                            int year = currentYear;
                                             System.out.printf("%10sEnter Published Year: ", "");
                                             while (true) {
                                                 while (!sc.hasNextInt()) {
@@ -359,7 +371,13 @@ public class BookStoreManagementSystem {
                                 while (isGenreMenuRunning) {
                                     menu.showGenreMainMenu();
                                     genreManager.loadGenresFile();
-                                    userChoice = sc.nextInt();
+                                    try {
+                                        userChoice = sc.nextInt();
+                                    } catch (InputMismatchException e) {
+                                        System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                        sc.nextLine();
+                                        continue;
+                                    }
 
                                     switch (userChoice) {
                                         case 1:
@@ -444,6 +462,109 @@ public class BookStoreManagementSystem {
                                             break;
                                         case 6:
                                             isPublisherMenuRunning = false;
+                                            break;
+                                        default:
+                                            System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                    }
+                                }
+                                break;
+
+                            case 7:
+                                boolean isOrderMenuRunning = true;
+                                while (isOrderMenuRunning) {
+                                    menu.showOrdersMainMenu();
+                                    orderManager.loadOrders();
+                                    try {
+                                        userChoice = sc.nextInt();
+                                    } catch (InputMismatchException e) {
+                                        System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                        sc.nextLine();
+                                        continue;
+                                    }
+
+                                    switch (userChoice) {
+                                        case 1:
+                                            orderManager.showOrderList();
+                                            break;
+                                        case 2:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Order ID: ", "");
+                                            String orderId = sc.nextLine();
+                                            Orders orderDetail = orderManager.getOrderById(orderId);
+                                            if (orderDetail != null) {
+                                                orderManager.showOrderDetails(orderDetail);
+                                            } else {
+                                                System.out.printf("%10sOrder not found!\n", "");
+                                            }
+                                            break;
+                                        case 3:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Order ID: ", "");
+                                            String newOrderId = sc.nextLine();
+                                            System.out.printf("%10sEnter Customer Name: ", "");
+                                            String customerId = sc.nextLine();
+
+                                            List<Book> availableBooks = bookManager.getBooksList();
+                                            if (availableBooks.isEmpty()) {
+                                                System.out.println("No books available.");
+                                                break;
+                                            }
+
+                                            System.out.println("\nAvailable Books:");
+                                            for (Book book : availableBooks) {
+                                                System.out.printf("Book ID: %s | Name: %s\n", book.getBookId(), book.getBookName());
+                                            }
+
+                                            System.out.printf("%10sEnter the number of books to order: ", "");
+                                            int bookCount;
+                                            try {
+                                                bookCount = sc.nextInt();
+                                                sc.nextLine();
+                                            } catch (InputMismatchException e) {
+                                                System.out.println("Invalid input. Please enter a number.");
+                                                sc.nextLine();
+                                                break;
+                                            }
+
+                                            List<String> booksOrderedList = new ArrayList<>();
+                                            for (int i = 0; i < bookCount; i++) {
+                                                System.out.printf("%10sEnter Book ID #%d: ", "", (i + 1));
+                                                String bookId = sc.nextLine();
+
+                                                boolean bookExists = availableBooks.stream().anyMatch(book -> book.getBookId().equals(bookId));
+                                                if (!bookExists) {
+                                                    System.out.println("Invalid Book ID. Try again.");
+                                                    i--;
+                                                    continue;
+                                                }
+                                                booksOrderedList.add(bookId);
+                                            }
+                                            String booksOrdered = String.join(", ", booksOrderedList);
+
+                                            Orders newOrder = new Orders(newOrderId, customerId, LocalDate.now(), booksOrdered, "Create");
+                                            orderManager.createOrder(newOrder);
+                                            break;
+                                        case 4:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Order ID to delete: ", "");
+                                            String deleteOrderId = sc.nextLine();
+                                            orderManager.deleteOrder(deleteOrderId);
+                                            break;
+                                        case 5:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Order ID to update status: ", "");
+                                            String updateOrderId = sc.nextLine();
+                                            Orders existingOrder = orderManager.getOrderById(updateOrderId);
+                                            if (existingOrder == null) {
+                                                System.out.println("Order not found!");
+                                                continue;
+                                            }
+                                            System.out.printf("%10sEnter New Status: ", "");
+                                            String newStatus = sc.nextLine();
+                                            orderManager.updateOrderStatus(updateOrderId, newStatus);
+                                            break;
+                                        case 6:
+                                            isOrderMenuRunning = false;
                                             break;
                                         default:
                                             System.out.printf("%10s\tInvalid choice. Please try again.\n", "");

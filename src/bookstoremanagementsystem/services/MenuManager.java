@@ -275,6 +275,24 @@ public class MenuManager implements IMenu {
         System.out.printf("%10s\tEnter choice: ", "");
     }
 
+    @Override
+    public void showOrdersMainMenu() {
+        System.out.printf("\n\n%10s*************************************************************\n", "");
+        System.out.printf("%10s*%59s*\n", "", "");
+        System.out.printf("%10s*------------------!! BOOK STORE MANAGER !!-----------------*\n", "");
+        System.out.printf("%10s*%59s*\n", "", "");
+        System.out.printf("%10s*%19s||%3sOrder Manager%3s||%18s*\n", "", "", "", "", "");
+        System.out.printf("%10s*************************************************************\n", "");
+        System.out.printf("%10s*\t1. Order List%41s*\n", "", "");
+        System.out.printf("%10s*\t2. Order Detail%39s*\n", "", "");
+        System.out.printf("%10s*\t3. Add New Order%38s*\n", "", "");
+        System.out.printf("%10s*\t4. Delete Order%40s*\n", "", "");
+        System.out.printf("%10s*\t5. Update Order Status%34s*\n", "", "");
+        System.out.printf("%10s*\t6. Back to main menu%34s*\n", "", "");
+        System.out.printf("%10s*************************************************************\n", "");
+        System.out.printf("%10s\tEnter choice: ", "");
+    }
+
     public class LogInForm {
 
         private String Email;

@@ -214,4 +214,10 @@ public class BookManager implements IBooks {
         System.out.printf("%10s*************************************************************\n", "");
     }
 
+    @Override
+    public List<Book> getBooksList() {
+        loadBooks();
+        return bookList;
+    }
+
 }
