@@ -9,10 +9,15 @@ import bookstoremanagementsystem.interfaces.IAuthors;
 import bookstoremanagementsystem.models.Authors;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,81 +28,42 @@ import java.util.Scanner;
 
 /**
  *
- * @author mummykiara
+ * @author
  */
 public class AuthorManager implements IAuthors {
 
     private final List<Authors> authorsList = new ArrayList<>();
     private final String filePath = "authors.txt";
-    private final String logFilePath = "log.txt";
-    private final int pageSize = 5;
 
     public AuthorManager() {
         loadAuthorsFromFile();
-        if (authorsList.isEmpty()) {
-            System.out.println("No authors found in file. Please add new authors.");
-        }
     }
 
     @Override
     public void addAuthor(String authorID, String fullName) {
         authorsList.add(new Authors(authorID, fullName));
-        System.out.println("Author added successfully!");
-        logChange("ADD", authorID, fullName);
+        System.out.printf("\n%10sAuthor added successfully!", "");
         saveAuthorsToFile();
     }
 
     @Override
     public void displayAuthors() {
-        int totalAuthors = authorsList.size();
-        if (totalAuthors == 0) {
-            System.out.println("No authors available.");
+        System.out.printf("\n\n%10s*************************************************************\n", "");
+        System.out.printf("%10s*%59s*\n", "", "");
+        System.out.printf("%10s*--------------------!! AUTHORS LIST !!--------------------*\n", "");
+        System.out.printf("%10s*%59s*\n", "", "");
+        System.out.printf("%10s*************************************************************\n", "");
+        System.out.printf("%10s| %-10s | %-30s |\n", "", "Author ID", "Full Name");
+        System.out.printf("%10s-------------------------------------------------------------\n", "");
+
+        if (authorsList.isEmpty()) {
+            System.out.printf("%10sNo authors available!\n", "");
             return;
         }
 
-        int totalPages = (int) Math.ceil((double) totalAuthors / pageSize);
-        Scanner scanner = new Scanner(System.in);
-        int currentPage = 1;
-
-        while (true) {
-            System.out.println("**************************************");
-            System.out.println("!! AUTHORS LIST !! (Page " + currentPage + " of " + totalPages + ")");
-            System.out.printf("%-10s %-30s\n", "Author ID", "Full Name");
-            System.out.println("-------------------------------------------------------");
-
-            int startIndex = (currentPage - 1) * pageSize;
-            int endIndex = Math.min(startIndex + pageSize, totalAuthors);
-
-            for (int i = startIndex; i < endIndex; i++) {
-                Authors author = authorsList.get(i);
-                System.out.printf("%-10s %-30s\n", author.getAuthorID(), author.getFullName());
-            }
-
-            System.out.println("-------------------------------------------------------");
-            System.out.println("N: Next Page, P: Previous Page, Q: Quit");
-            System.out.print("Enter option: ");
-            String option = scanner.nextLine().toUpperCase();
-
-            switch (option) {
-                case "N":
-                    if (currentPage < totalPages) {
-                        currentPage++;
-                    } else {
-                        System.out.println("This is the last page.");
-                    }
-                    break;
-                case "P":
-                    if (currentPage > 1) {
-                        currentPage--;
-                    } else {
-                        System.out.println("This is the first page.");
-                    }
-                    break;
-                case "Q":
-                    return;
-                default:
-                    System.out.println("Invalid option. Try again.");
-            }
+        for (Authors author : authorsList) {
+            System.out.printf("%10s| %-10s | %-30s |\n", "", author.getAuthorID(), author.getFullName());
+            System.out.printf("%10s-------------------------------------------------------------\n", "");
         }
     }
 
@@ -111,14 +77,26 @@ public class AuthorManager implements IAuthors {
     @Override
     public void searchAuthor(String searchInput) {
         boolean found = false;
+
+        System.out.printf("\n\n%10s*************************************************************\n", "");
+        System.out.printf("%10s*%59s*\n", "", "");
+        System.out.printf("%10s*-------------------!! SEARCH AUTHOR !!-------------------*\n", "");
+        System.out.printf("%10s*%59s*\n", "", "");
+        System.out.printf("%10s*************************************************************\n", "");
+        System.out.printf("%10s| %-10s | %-30s |\n", "", "Author ID", "Full Name");
+        System.out.printf("%10s-------------------------------------------------------------\n", "");
+
         for (Authors author : authorsList) {
-            if (author.getFullName().equalsIgnoreCase(searchInput) || author.getAuthorID().equalsIgnoreCase(searchInput)) {
-                System.out.printf("Found - Author ID: %s, Full Name: %s\n", author.getAuthorID(), author.getFullName());
+            if (author.getFullName().contains(searchInput) || author.getAuthorID().contains(searchInput)) {
+                System.out.printf("%10s| %-10s | %-30s |\n", "", author.getAuthorID(), author.getFullName());
+                System.out.printf("%10s-------------------------------------------------------------\n", "");
                 found = true;
             }
         }
+
         if (!found) {
-            System.out.println("Author not found.");
+            System.out.printf("%10s| %-55s |\n", "", "Author not found!");
+            System.out.printf("%10s-------------------------------------------------------------\n", "");
         }
     }
 
@@ -132,9 +110,8 @@ public class AuthorManager implements IAuthors {
                 String authorID = author.getAuthorID();
                 String fullName = author.getFullName();
                 iterator.remove();
-                System.out.printf("Deleted - Author ID: %s, Full Name: %s\n", authorID, fullName);
+                System.out.printf("%10sDeleted authors successfully!\n", "");
                 found = true;
-                logChange("DELETE", authorID, fullName);
             }
         }
         if (!found) {
@@ -146,12 +123,10 @@ public class AuthorManager implements IAuthors {
 
     @Override
     public void saveAuthorsToFile() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
             for (Authors author : authorsList) {
-                writer.write(author.getAuthorID() + "," + author.getFullName());
-                writer.newLine();
+                oos.writeObject(author);
             }
-            System.out.println("Authors saved to file!");
         } catch (IOException e) {
             System.err.println("Error saving authors to file: " + e.getMessage());
         }
@@ -159,69 +134,50 @@ public class AuthorManager implements IAuthors {
 
     @Override
     public void loadAuthorsFromFile() {
+        authorsList.clear();
         File file = new File(filePath);
         if (!file.exists()) {
-            System.out.println("File not found: " + filePath + ". Create new on save");
+            System.out.printf("%10sFile not found!\n", "");
             return;
         }
-        if (file.length() == 0) {
-            System.out.println("File " + filePath + " Empty. No authors loaded.");
-            return;
-        }
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length == 2) {
-                    authorsList.add(new Authors(parts[0].trim(), parts[1].trim()));
-                } else {
-                    System.err.println("Invalid line in file " + filePath + ": " + line);
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+            while (true) {
+                try {
+                    Authors author = (Authors) ois.readObject();
+                    authorsList.add(author);
+                } catch (EOFException e) {
+                    break;
+                } catch (ClassNotFoundException e) {
+//                    System.err.println("Class not found: " + e.getMessage());
+                    break;
                 }
             }
-            System.out.println("Authors loaded from file!");
         } catch (IOException e) {
-            System.err.println("Error loading authors from file: " + e.getMessage());
+//            System.err.println("Error occurs loading authors from file: " + e.getMessage());
         }
     }
 
     @Override
-    public void editAuthor(String searchInput, String newAuthorID, String newFullName) {
-        boolean found = false;
+    public Authors searchAuthorByID(String authorID) {
+        loadAuthorsFromFile();
         for (Authors author : authorsList) {
-            if (author.getFullName().equalsIgnoreCase(searchInput) || author.getAuthorID().equalsIgnoreCase(searchInput)) {
-                String oldAuthorID = author.getAuthorID();
-                String oldFullName = author.getFullName();
-                author.setAuthorID(newAuthorID);
-                author.setFullName(newFullName);
-                System.out.printf("Updated - Author ID: %s, Full Name: %s to Author ID: %s, Full Name: %s\n", oldAuthorID, oldFullName, newAuthorID, newFullName);
-                found = true;
-                logChange("EDIT", oldAuthorID, oldFullName, newAuthorID, newFullName);
-                break; // Chỉ sửa một tác giả
+            if (author.getAuthorID().equalsIgnoreCase(authorID)) {
+                return author;
             }
         }
-        if (!found) {
-            System.out.println("Author not found.");
-        } else {
-            saveAuthorsToFile();
-        }
+        return null;
     }
 
-    private void logChange(String action, String oldAuthorID, String oldFullName, String newAuthorID, String newFullName) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFilePath, true))) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = new Date();
-            String timestamp = formatter.format(date);
-
-            String logMessage = String.format("%s - %s: Author ID: %s, Full Name: %s -> Author ID: %s, Full Name: %s%n",
-                    timestamp, action, oldAuthorID, oldFullName, newAuthorID, newFullName);
-            writer.write(logMessage);
-        } catch (IOException e) {
-            System.err.println("Error writing to log file: " + e.getMessage());
+    @Override
+    public void updateAuthor(Authors author) {
+        loadAuthorsFromFile();
+        for (int i = 0; i < authorsList.size(); i++) {
+            if (authorsList.get(i).getAuthorID().equals(author.getAuthorID())) {
+                authorsList.set(i, author);
+                System.out.printf("%10sAuthour updated successfully!\n", "");
+            }
         }
-    }
-
-    private void logChange(String action, String authorID, String fullName) {
-        logChange(action, authorID, fullName, null, null);
+        saveAuthorsToFile();
     }
 
 }

@@ -5,13 +5,14 @@
  */
 package bookstoremanagementsystem.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *
  * @author mummykiara
  */
-public class RentalSlipTransactions extends Transactions {
+public class RentalSlipTransactions extends Transactions implements Serializable {
 
     String rentFormId;
 

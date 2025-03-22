@@ -5,6 +5,7 @@
  */
 package bookstoremanagementsystem.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author mummykiara
  */
-public class Book {
+public class Book implements Serializable {
 
     String bookId;
     String bookName;

@@ -6,8 +6,10 @@
 package bookstoremanagementsystem.services;
 
 import bookstoremanagementsystem.interfaces.IAccount;
+import bookstoremanagementsystem.interfaces.IAuthors;
 import bookstoremanagementsystem.interfaces.IMenu;
 import bookstoremanagementsystem.models.Accounts;
+import bookstoremanagementsystem.models.Authors;
 import java.util.Scanner;
 
 /**
@@ -63,6 +65,7 @@ public class MenuManager implements IMenu {
         System.out.printf("%10s*************************************************************\n", etc);
         System.out.printf("%10s*\t1. Log in%45s*\n", etc, etc);
         System.out.printf("%10s*\t2. Sign up%44s*\n", etc, etc);
+        System.out.printf("%10s*\t3. Shut down%42s*\n", etc, etc);
         System.out.printf("%10s*************************************************************\n", etc);
         System.out.printf("%10s\tEnter choice: ", etc);
     }
@@ -147,13 +150,12 @@ public class MenuManager implements IMenu {
         System.out.printf("%10s\tEnter Search Detail: ", etc);
         String searchDetail = scanner.nextLine();
         Accounts acc = accountManagement.searchAccountByEmail(searchDetail);
-        
-            System.out.println("Update ne " + acc.toString());
+
         if (acc == null) {
             System.out.printf("%10sNo accounts found!", "");
             return;
         } else {
-            System.out.println("----- Press Enter if you do not want to change that data -----");
+            System.out.printf("%10s----- Press Enter if you do not want to change that data -----", etc);
 
             System.out.printf("%10s\tEnter Full Name [%s]: ", etc, acc.getFullName());
             String fullName = scanner.nextLine().trim();
@@ -185,9 +187,73 @@ public class MenuManager implements IMenu {
             acc.setAddress(address);
 
             accountManagement.UpdateAccount(acc);
-            
-        }
 
+        }
+    }
+
+    @Override
+    public void showAuthorsMainMenu() {
+        System.out.printf("\n\n%10s*************************************************************\n", etc);
+        System.out.printf("%10s*%59s*\n", etc, etc);
+        System.out.printf("%10s*------------------!! BOOK STORE MANAGER !!-----------------*\n", etc);
+        System.out.printf("%10s*%59s*\n", etc, etc);
+        System.out.printf("%10s*%17s||%3sAuthors manager%3s||%17s*\n", etc, etc, etc, etc, etc);
+        System.out.printf("%10s*************************************************************\n", etc);
+        System.out.printf("%10s*\t1. Author List%40s*\n", etc, etc);
+        System.out.printf("%10s*\t2. Author Detail%38s*\n", etc, etc);
+        System.out.printf("%10s*\t3. Create New Author%34s*\n", etc, etc);
+        System.out.printf("%10s*\t4. Update Author%38s*\n", etc, etc);
+        System.out.printf("%10s*\t5. Delete Author%38s*\n", etc, etc);
+        System.out.printf("%10s*\t6. Back to main menu%34s*\n", etc, etc);
+        System.out.printf("%10s*************************************************************\n", etc);
+        System.out.printf("%10s\tEnter choice: ", etc);
+    }
+
+    @Override
+    public void showAuthorUpdateForm() {
+        IAuthors authorManager = new AuthorManager();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.printf("%10s\tEnter Author ID to update: ", "");
+        String authorID = scanner.nextLine().trim();
+
+        Authors author = authorManager.searchAuthorByID(authorID);
+
+        if (author == null) {
+            System.out.printf("%10sNo author found with ID: %s\n", "", authorID);
+            return;
+        } else {
+            System.out.printf("%10s----- Press Enter if you do not want to change that data -----", etc);
+
+            System.out.printf("%10s\tEnter Full Name [%s]: ", "", author.getFullName());
+            String fullName = scanner.nextLine().trim();
+            if (fullName.isEmpty()) {
+                fullName = author.getFullName();
+            }
+
+            author.setFullName(fullName);
+
+            authorManager.updateAuthor(author);
+            System.out.printf("%10sAuthor updated successfully!\n", "");
+        }
+    }
+
+    @Override
+    public void showPublishersMainMenu() {
+        System.out.printf("\n\n%10s*************************************************************\n", "");
+        System.out.printf("%10s*%59s*\n", "", "");
+        System.out.printf("%10s*------------------!! BOOK STORE MANAGER !!-----------------*\n", "");
+        System.out.printf("%10s*%59s*\n", "", "");
+        System.out.printf("%10s*%17s||%3sPublishers Manager%3s||%15s*\n", "", "", "", "", "");
+        System.out.printf("%10s*************************************************************\n", "");
+        System.out.printf("%10s*\t1. Publisher List%38s*\n", "", "");
+        System.out.printf("%10s*\t2. Publisher Detail%36s*\n", "", "");
+        System.out.printf("%10s*\t3. Create New Publisher%32s*\n", "", "");
+        System.out.printf("%10s*\t4. Update Publisher%36s*\n", "", "");
+        System.out.printf("%10s*\t5. Delete Publisher%36s*\n", "", "");
+        System.out.printf("%10s*\t6. Back to main menu%34s*\n", "", "");
+        System.out.printf("%10s*************************************************************\n", "");
+        System.out.printf("%10s\tEnter choice: ", "");
     }
 
     public class LogInForm {

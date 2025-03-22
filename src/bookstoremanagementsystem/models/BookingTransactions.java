@@ -5,13 +5,14 @@
  */
 package bookstoremanagementsystem.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *
  * @author mummykiara
  */
-public class BookingTransactions extends Transactions {
+public class BookingTransactions extends Transactions implements Serializable {
 
     String orderId;
 

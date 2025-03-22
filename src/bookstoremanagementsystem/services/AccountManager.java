@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author mummykiara
+ * @author nhulnt
  */
 public class AccountManager implements IAccount {
 
@@ -74,11 +74,6 @@ public class AccountManager implements IAccount {
 
     @Override
     public int LogIn(String email, String password) {
-        for (Accounts accounts : accountsList) {
-            System.out.println("Accoutn ne :" + accounts.toString());
-        }
-        System.out.println("Email ne " + email);
-        System.out.println("Pass ne ne " + password);
         for (Accounts accounts : accountsList) {
             if (accounts.getEmail().equals(email) && accounts.getPassword().equals(password)) {
                 if (accounts.getRole().equals("User")) {
