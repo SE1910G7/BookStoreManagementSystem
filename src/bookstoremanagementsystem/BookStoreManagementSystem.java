@@ -15,12 +15,14 @@ import bookstoremanagementsystem.interfaces.IGenres;
 import bookstoremanagementsystem.interfaces.IMenu;
 import bookstoremanagementsystem.interfaces.IOrders;
 import bookstoremanagementsystem.interfaces.IPublishers;
+import bookstoremanagementsystem.interfaces.IRentalSlips;
 import bookstoremanagementsystem.models.Accounts;
 import bookstoremanagementsystem.models.Book;
 import bookstoremanagementsystem.models.BookAuthors;
 import bookstoremanagementsystem.models.Genres;
 import bookstoremanagementsystem.models.Orders;
 import bookstoremanagementsystem.models.Publishers;
+import bookstoremanagementsystem.models.RentalSlips;
 import bookstoremanagementsystem.services.AccountManager;
 import bookstoremanagementsystem.services.AuthorManager;
 import bookstoremanagementsystem.services.BookAuthorsManager;
@@ -31,8 +33,10 @@ import bookstoremanagementsystem.services.MenuManager.LogInForm;
 import bookstoremanagementsystem.services.MenuManager.RegisterForm;
 import bookstoremanagementsystem.services.OrdersManager;
 import bookstoremanagementsystem.services.PublisherManager;
+import bookstoremanagementsystem.services.RentalSlipsManager;
 import java.time.LocalDate;
 import java.time.Year;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,6 +57,7 @@ public class BookStoreManagementSystem {
         IGenres genreManager = new GenresManager();
         IPublishers publisherManager = new PublisherManager();
         IOrders orderManager = new OrdersManager();
+        IRentalSlips rentalSlipsManager = new RentalSlipsManager();
 
         // loop main menu
         while (true) {
@@ -468,6 +473,148 @@ public class BookStoreManagementSystem {
                                     }
                                 }
                                 break;
+                            case 6:
+                                boolean isRentalMenuRunning = true;
+                                while (isRentalMenuRunning) {
+                                    menu.showRentalSlipsMainMenu();
+                                    rentalSlipsManager.loadRentalSlips();
+
+                                    try {
+                                        userChoice = sc.nextInt();
+                                    } catch (InputMismatchException e) {
+                                        System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                        sc.nextLine();
+                                        continue;
+                                    }
+
+                                    switch (userChoice) {
+                                        case 1:
+                                            rentalSlipsManager.showRentalSlips();
+                                            break;
+                                        case 2:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Rental Slip ID: ", "");
+                                            String rentalSlipId = sc.nextLine();
+                                            RentalSlips rentalSlipDetail = rentalSlipsManager.getRentalSlipById(rentalSlipId);
+                                            if (rentalSlipDetail != null) {
+                                                rentalSlipsManager.showRentalSlipDetails(rentalSlipDetail);
+                                            } else {
+                                                System.out.printf("%10sRental Slip not found!\n", "");
+                                            }
+                                            break;
+                                        case 3:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Rental Slip ID: ", "");
+                                            String newRentalSlipId = sc.nextLine();
+
+                                            System.out.printf("%10sEnter Customer Name: ", "");
+                                            String customerAccountId = sc.nextLine();
+
+                                            List<Book> availableBooksForRental = bookManager.getBooksList();
+                                            if (availableBooksForRental.isEmpty()) {
+                                                System.out.println("No books available for rental.");
+                                                break;
+                                            }
+
+                                            System.out.println("\nAvailable Books:");
+                                            for (Book book : availableBooksForRental) {
+                                                System.out.printf("Book ID: %s | Name: %s\n", book.getBookId(), book.getBookName());
+                                            }
+
+                                            System.out.printf("%10sEnter the number of books to rent: ", "");
+                                            int rentalBookCount;
+                                            try {
+                                                rentalBookCount = sc.nextInt();
+                                                sc.nextLine();
+                                            } catch (InputMismatchException e) {
+                                                System.out.println("Invalid input. Please enter a number.");
+                                                sc.nextLine();
+                                                break;
+                                            }
+
+                                            List<String> booksRentedList = new ArrayList<>();
+                                            for (int i = 0; i < rentalBookCount; i++) {
+                                                System.out.printf("%10sEnter Book ID #%d: ", "", (i + 1));
+                                                String bookId = sc.nextLine();
+
+                                                boolean bookExists = availableBooksForRental.stream()
+                                                        .anyMatch(book -> book.getBookId().equals(bookId));
+                                                if (!bookExists) {
+                                                    System.out.println("Invalid Book ID. Try again.");
+                                                    i--;
+                                                    continue;
+                                                }
+                                                booksRentedList.add(bookId);
+                                            }
+                                            String booksRented = String.join(", ", booksRentedList);
+
+                                            LocalDate startRentBookDate = LocalDate.now();
+                                            LocalDate createdAt = LocalDate.now();
+
+                                            System.out.printf("%10sEnter Rental End Date (yyyy-MM-dd): ", "");
+                                            LocalDate endRentBookDate;
+                                            try {
+                                                endRentBookDate = LocalDate.parse(sc.nextLine());
+                                                if (endRentBookDate.isBefore(startRentBookDate)) {
+                                                    System.out.println("End date cannot be before start date!");
+                                                    break;
+                                                }
+                                            } catch (DateTimeParseException e) {
+                                                System.out.println("Please enter in yyyy-MM-dd.");
+                                                break;
+                                            }
+
+                                            System.out.printf("%10sEnter Total Price: ", "");
+                                            double totalPrice;
+                                            try {
+                                                totalPrice = sc.nextDouble();
+                                                sc.nextLine();
+                                                if (totalPrice < 0) {
+                                                    System.out.println("Total price cannot be negative. Try again.");
+                                                    break;
+                                                }
+                                            } catch (InputMismatchException e) {
+                                                System.out.println("Invalid input. Please enter a valid number.");
+                                                sc.nextLine();
+                                                break;
+                                            }
+
+                                            RentalSlips newRentalSlip = new RentalSlips(
+                                                    newRentalSlipId, customerAccountId, booksRented,
+                                                    startRentBookDate, endRentBookDate, createdAt,
+                                                    totalPrice, "Active"
+                                            );
+
+                                            rentalSlipsManager.createRentalSlip(newRentalSlip);
+                                            System.out.println("Rental slip added successfully!");
+                                            break;
+                                        case 4:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Rental Slip ID to delete: ", "");
+                                            String deleteRentalSlipId = sc.nextLine();
+                                            rentalSlipsManager.deleteRentalSlip(deleteRentalSlipId);
+                                            break;
+                                        case 5:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Rental Slip ID to update status: ", "");
+                                            String updateRentalSlipId = sc.nextLine();
+                                            RentalSlips existingRentalSlip = rentalSlipsManager.getRentalSlipById(updateRentalSlipId);
+                                            if (existingRentalSlip == null) {
+                                                System.out.println("Rental Slip not found!");
+                                                continue;
+                                            }
+                                            System.out.printf("%10sEnter New Status: ", "");
+                                            String newStatus = sc.nextLine();
+                                            rentalSlipsManager.updateRentalStatus(updateRentalSlipId, newStatus);
+                                            break;
+                                        case 6:
+                                            isRentalMenuRunning = false;
+                                            break;
+                                        default:
+                                            System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                    }
+                                }
+                                break;
 
                             case 7:
                                 boolean isOrderMenuRunning = true;
@@ -597,7 +744,6 @@ public class BookStoreManagementSystem {
                 } else {
                     System.out.printf("%10s\tEmail or password incorrect.\n", "");
                 }
-
             } else if (userChoice == 2) {
                 accountManager.LoadAccountProfile();
                 RegisterForm registerValue = menu.showRegisterMenu();

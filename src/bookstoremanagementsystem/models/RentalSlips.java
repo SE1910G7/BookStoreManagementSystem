@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 /**
  *
- * @author mummykiara
+ * @author nhulnt
  */
 public class RentalSlips implements Serializable {
 
@@ -21,9 +21,10 @@ public class RentalSlips implements Serializable {
     LocalDate endRentBookDate;
     LocalDate createdAt;
     double totalPrice;
+    String rentStatus;
 
     public RentalSlips(String rentFormId, String accountId, String bookId, LocalDate startRentBookDate,
-            LocalDate endRentBookDate, LocalDate createdAt, double totalPrice) {
+            LocalDate endRentBookDate, LocalDate createdAt, double totalPrice, String rentStatus) {
         this.rentFormId = rentFormId;
         this.accountId = accountId;
         this.bookId = bookId;
@@ -31,5 +32,71 @@ public class RentalSlips implements Serializable {
         this.endRentBookDate = endRentBookDate;
         this.createdAt = createdAt;
         this.totalPrice = totalPrice;
+        this.rentStatus = rentStatus;
     }
+
+    public String getRentFormId() {
+        return rentFormId;
+    }
+
+    public void setRentFormId(String rentFormId) {
+        this.rentFormId = rentFormId;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+    }
+
+    public LocalDate getStartRentBookDate() {
+        return startRentBookDate;
+    }
+
+    public void setStartRentBookDate(LocalDate startRentBookDate) {
+        this.startRentBookDate = startRentBookDate;
+    }
+
+    public LocalDate getEndRentBookDate() {
+        return endRentBookDate;
+    }
+
+    public void setEndRentBookDate(LocalDate endRentBookDate) {
+        this.endRentBookDate = endRentBookDate;
+    }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getRentStatus() {
+        return rentStatus;
+    }
+
+    public void setRentStatus(String rentStatus) {
+        this.rentStatus = rentStatus;
+    }
+    
 }

@@ -49,5 +49,8 @@ public interface IMenu {
 
     //Orders manager menu
     void showOrdersMainMenu();
+    
+     //Orders manager menu
+    void showRentalSlipsMainMenu();
 
 }

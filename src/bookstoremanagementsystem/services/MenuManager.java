@@ -293,6 +293,24 @@ public class MenuManager implements IMenu {
         System.out.printf("%10s\tEnter choice: ", "");
     }
 
+    @Override
+    public void showRentalSlipsMainMenu() {
+        System.out.printf("\n\n%10s*************************************************************\n", "");
+        System.out.printf("%10s*%59s*\n", "", "");
+        System.out.printf("%10s*------------------!! BOOK STORE MANAGER !!-----------------*\n", "");
+        System.out.printf("%10s*%59s*\n", "", "");
+        System.out.printf("%10s*%14s||%3sRentalSlip Manager%3s||%14s*\n", "", "", "", "", "");
+        System.out.printf("%10s*************************************************************\n", "");
+        System.out.printf("%10s*\t1. RentalSlip List%36s*\n", "", "");
+        System.out.printf("%10s*\t2. RentalSlip Detail%34s*\n", "", "");
+        System.out.printf("%10s*\t3. Add New RentalSlip%33s*\n", "", "");
+        System.out.printf("%10s*\t4. Delete RentalSlip%35s*\n", "", "");
+        System.out.printf("%10s*\t5. Update RentalSlip Status%29s*\n", "", "");
+        System.out.printf("%10s*\t6. Back to main menu%34s*\n", "", "");
+        System.out.printf("%10s*************************************************************\n", "");
+        System.out.printf("%10s\tEnter choice: ", "");
+    }
+
     public class LogInForm {
 
         private String Email;

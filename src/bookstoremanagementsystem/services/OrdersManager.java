@@ -155,6 +155,5 @@ public class OrdersManager implements IOrders {
         }
 
         System.out.printf("%10s*************************************************************\n", "");
-
     }
 }
