@@ -9,13 +9,22 @@ import bookstoremanagementsystem.models.Authors;
 import java.util.List;
 
 public interface IAuthors {
-   void addAuthor(String authorID, String fullName);
+
+    void addAuthor(String authorID, String fullName);
+
     void displayAuthors();
+
     void sortAuthors();
+
     void searchAuthor(String searchInput);
+
     void deleteAuthor(String searchInput);
+
     void saveAuthorsToFile();
+
     void loadAuthorsFromFile();
+
     Authors searchAuthorByID(String authorID);
+
     void updateAuthor(Authors author);
 }

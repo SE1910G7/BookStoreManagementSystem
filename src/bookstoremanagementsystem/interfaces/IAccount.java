@@ -30,5 +30,12 @@ public interface IAccount {
     public Accounts searchAccountByEmail(String email);
 
     public void showAccountListByList(List<Accounts> list);
+
     public void UpdateAccount(Accounts model);
+
+    void showAccountDetails(Accounts account);
+
+    public boolean isvalidPhoneNumber(String phoneNumber);
+
+    public boolean isvalidEmail(String email);
 }

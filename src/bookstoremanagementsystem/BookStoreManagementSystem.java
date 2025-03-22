@@ -58,6 +58,7 @@ public class BookStoreManagementSystem {
         IPublishers publisherManager = new PublisherManager();
         IOrders orderManager = new OrdersManager();
         IRentalSlips rentalSlipsManager = new RentalSlipsManager();
+        String emailLogin = "";
 
         // loop main menu
         while (true) {
@@ -74,6 +75,7 @@ public class BookStoreManagementSystem {
             if (userChoice == 1) {
                 accountManager.LoadAccountProfile();
                 LogInForm logInValue = menu.showLogInMenu();
+                emailLogin = logInValue.getEmail();
                 int acc = accountManager.LogIn(logInValue.getEmail(), logInValue.getPassword());
 
                 //Admin menu
@@ -731,10 +733,27 @@ public class BookStoreManagementSystem {
                     boolean isUserRunning = true;
                     while (isUserRunning) {
                         menu.showUserMenu();
-                        userChoice = sc.nextInt();
+                        try {
+                            userChoice = sc.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                            sc.nextLine();
+                            continue;
+                        }
 
                         switch (userChoice) {
-                            case 6:
+                            case 1:
+                                Accounts user = accountManager.searchAccountByEmail(emailLogin);
+                                accountManager.showAccountDetails(user);
+                                break;
+                            case 2:
+                                menu.showAccountUpdateForm();
+                                accountManager.LoadAccountProfile();
+                                break;
+                            case 3:
+                                bookManager.showBookList();
+                                break;
+                            case 4:
                                 isUserRunning = false;
                                 break;
                             default:

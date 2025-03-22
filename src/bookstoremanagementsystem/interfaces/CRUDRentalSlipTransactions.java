@@ -10,7 +10,10 @@ package bookstoremanagementsystem.interfaces;
  * @author DELL
  */
 public interface CRUDRentalSlipTransactions {
+
     void addRentalSlip(String id, String details, StringBuilder outputBuffer);
+
     void viewRentalSlips(StringBuilder outputBuffer);
+
     void deleteRentalSlip(String id, StringBuilder outputBuffer);
 }

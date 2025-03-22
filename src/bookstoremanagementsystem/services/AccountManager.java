@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -222,5 +223,61 @@ public class AccountManager implements IAccount {
             }
         }
         saveToFile();
+    }
+
+    @Override
+    public void showAccountDetails(Accounts account) {
+        System.out.printf("\n\n%10s*************************************************************\n", "");
+        System.out.printf("%10s*%59s*\n", "", "");
+        System.out.printf("%10s*------------------!! ACCOUNT DETAILS !!------------------*\n", "");
+        System.out.printf("%10s*%59s*\n", "", "");
+        System.out.printf("%10s*************************************************************\n", "");
+
+        System.out.printf("%10s| %-15s: %-40s |\n", "", "Account ID", account.getAccountID());
+        System.out.printf("%10s| %-15s: %-40s |\n", "", "Full Name", account.getFullName());
+        System.out.printf("%10s| %-15s: %-40s |\n", "", "Email", account.getEmail());
+        System.out.printf("%10s| %-15s: %-40s |\n", "", "Phone Number", account.getPhoneNumber());
+        System.out.printf("%10s| %-15s: %-40s |\n", "", "Address", account.getAddress());
+        System.out.printf("%10s| %-15s: %-40s |\n", "", "Created At", account.getCreatedAt());
+
+        System.out.printf("%10s*************************************************************\n", "");
+    }
+
+    @Override
+    public boolean isvalidPhoneNumber(String phoneNumber) {
+        LoadAccountProfile();
+        String phoneRegex = "^[0-9]{10}$";
+        Pattern phonePattern = Pattern.compile(phoneRegex);
+        if (phoneNumber == null || phoneNumber.isEmpty()) {
+            return false;
+        }
+        if (phonePattern.matcher(phoneNumber).matches()) {
+
+            for (Accounts accounts : accountsList) {
+                if (accounts.getPhoneNumber().equals(phoneNumber)) {
+                    return false;
+                }
+            }
+        }
+        return phonePattern.matcher(phoneNumber).matches();
+    }
+
+    @Override
+    public boolean isvalidEmail(String email) {
+        LoadAccountProfile();
+        String emailregex = "^[a-zA-Z0-9._%+-]+@gmail\\.com$";
+        Pattern emailPattern = Pattern.compile(emailregex);
+        if (email == null || email.isEmpty()) {
+            return false;
+        }
+        if (emailPattern.matcher(email).matches()) {
+
+            for (Accounts accounts : accountsList) {
+                if (accounts.getEmail().equals(email)) {
+                    return false;
+                }
+            }
+        }
+        return emailPattern.matcher(email).matches();
     }
 }

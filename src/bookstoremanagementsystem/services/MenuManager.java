@@ -47,11 +47,9 @@ public class MenuManager implements IMenu {
         System.out.printf("%10s*%59s*\n", etc, etc);
         System.out.printf("%10s*************************************************************\n", etc);
         System.out.printf("%10s*\t1. Profile%44s*\n", etc, etc);
-        System.out.printf("%10s*\t2. View Books%41s*\n", etc, etc);
-        System.out.printf("%10s*\t3. Cart%47s*\n", etc, etc);
-        System.out.printf("%10s*\t4. View Orders%40s*\n", etc, etc);
-        System.out.printf("%10s*\t5. View RentalSlip%36s*\n", etc, etc);
-        System.out.printf("%10s*\t6. Logout%45s*\n", etc, etc);
+        System.out.printf("%10s*\t2. Update Profile%38s*\n", etc, etc);
+        System.out.printf("%10s*\t3. View Books%41s*\n", etc, etc);
+        System.out.printf("%10s*\t4. Logout%45s*\n", etc, etc);
         System.out.printf("%10s*************************************************************\n", etc);
         System.out.printf("%10s\tEnter choice: ", etc);
     }
@@ -102,16 +100,29 @@ public class MenuManager implements IMenu {
     @Override
     public RegisterForm showRegisterMenu() {
         Scanner scanner = new Scanner(System.in);
+        IAccount accManager = new AccountManager();
         System.out.printf("%10s\tEnter Account ID: ", etc);
         String accountID = scanner.nextLine();
         System.out.printf("%10s\tEnter Full Name: ", etc);
         String fullName = scanner.nextLine();
-        System.out.printf("%10s\tEnter Email: ", etc);
-        String email = scanner.nextLine();
+        String email;
+        do {
+            System.out.printf("%10s\tEnter Email: ", "");
+            email = scanner.nextLine();
+            if (!accManager.isvalidEmail(email)) {
+                System.out.println("Please enter a valid email.");
+            }
+        } while (!accManager.isvalidEmail(email));
         System.out.printf("%10s\tEnter Password: ", etc);
         String password = scanner.nextLine();
-        System.out.printf("%10s\tEnter Phone Number: ", etc);
-        String phoneNumber = scanner.nextLine();
+        String phoneNumber;
+        do {
+            System.out.printf("%10s\tEnter Phone Number: ", "");
+            phoneNumber = scanner.nextLine();
+            if (!accManager.isvalidPhoneNumber(phoneNumber)) {
+                System.out.println("Please enter a valid phone number.");
+            }
+        } while (!accManager.isvalidPhoneNumber(phoneNumber));
         System.out.printf("%10s\tEnter Address: ", etc);
         String address = scanner.nextLine();
         RegisterForm register = new RegisterForm(accountID, fullName, email, password, phoneNumber, address);
@@ -147,7 +158,7 @@ public class MenuManager implements IMenu {
     public void showAccountUpdateForm() {
         IAccount accountManagement = new AccountManager();
         Scanner scanner = new Scanner(System.in);
-        System.out.printf("%10s\tEnter Search Detail: ", etc);
+        System.out.printf("%10s\tEnter Search Email: ", etc);
         String searchDetail = scanner.nextLine();
         Accounts acc = accountManagement.searchAccountByEmail(searchDetail);
 
@@ -155,7 +166,7 @@ public class MenuManager implements IMenu {
             System.out.printf("%10sNo accounts found!", "");
             return;
         } else {
-            System.out.printf("%10s----- Press Enter if you do not want to change that data -----", etc);
+            System.out.printf("%10s----- Press Enter if you do not want to change that data -----\n", etc);
 
             System.out.printf("%10s\tEnter Full Name [%s]: ", etc, acc.getFullName());
             String fullName = scanner.nextLine().trim();
