@@ -6,15 +6,51 @@
 package bookstoremanagementsystem.interfaces;
 
 import bookstoremanagementsystem.services.MenuManager.LogInForm;
+import bookstoremanagementsystem.services.MenuManager.RegisterForm;
 
 /**
  *
- * @author mummykiara
+ * @author nhulnt
  */
 public interface IMenu {
+
+    //account type menu
     public void showAdminMenu();
+
     public void showUserMenu();
-    public void showWelcomeMenu();
+
+    public RegisterForm showRegisterMenu();
+
     public LogInForm showLogInMenu();
+
+    //welcome menu
+    public void showWelcomeMenu();
+
+    //genre manager menu
     public void showGenreMainMenu();
+
+    //account manager menu
+    public void showAccountMainMenu();
+
+    public String showAccountSearchForm();
+
+    public void showAccountUpdateForm();
+
+    //author manager menu
+    public void showAuthorsMainMenu();
+
+    public void showAuthorUpdateForm();
+
+    //publisher manager menu
+    public void showPublishersMainMenu();
+
+    //book manager menu
+    public void showBooksMainMenu();
+
+    //Orders manager menu
+    void showOrdersMainMenu();
+    
+     //Orders manager menu
+    void showRentalSlipsMainMenu();
+
 }

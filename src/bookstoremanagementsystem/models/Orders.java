@@ -14,32 +14,58 @@ import java.util.Date;
  * @author mummykiara
  */
 public class Orders implements Serializable {
+
     private String orderId;
     private String customerId;
-    private Date orderDate;
+    private LocalDate orderDate;
+    private String booksOrder;
     private String statusId;
-    
-    public Orders(String orderId, String customerId, Date orderDate, String statusId) {
+
+    public Orders(String orderId, String customerId, LocalDate orderDate, String booksOrder, String statusId) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderDate = orderDate;
+        this.booksOrder = booksOrder;
         this.statusId = statusId;
     }
-    
-    public String getOrderId() { return orderId; }
-    public void setOrderId(String orderId) { this.orderId = orderId; }
-    
-    public String getCustomerId() { return customerId; }
-    public void setCustomerId(String customerId) { this.customerId = customerId; }
-    
-    public Date getOrderDate() { return orderDate; }
-    public void setOrderDate(Date orderDate) { this.orderDate = orderDate; }
-    
-    public String getStatusId() { return statusId; }
-    public void setStatusId(String statusId) { this.statusId = statusId; }
-    
-    @Override
-    public String toString() {
-        return "Orders{" + "orderId='" + orderId + '\'' + ", customerId='" + customerId + '\'' + ", orderDate=" + orderDate + ", statusId='" + statusId + '\'' + '}';
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getBooksOrder() {
+        return booksOrder;
+    }
+
+    public void setBooksOrder(String booksOrder) {
+        this.booksOrder = booksOrder;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public LocalDate getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDate orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public String getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(String statusId) {
+        this.statusId = statusId;
     }
 }

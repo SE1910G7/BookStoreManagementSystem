@@ -10,730 +10,770 @@ import bookstoremanagementsystem.services.CartItemsManager;
 import java.util.InputMismatchException;
 import bookstoremanagementsystem.interfaces.IAccount;
 import bookstoremanagementsystem.interfaces.IAuthors;
+import bookstoremanagementsystem.interfaces.IBooks;
 import bookstoremanagementsystem.interfaces.IGenres;
 import bookstoremanagementsystem.interfaces.IMenu;
+import bookstoremanagementsystem.interfaces.IOrders;
+import bookstoremanagementsystem.interfaces.IPublishers;
+import bookstoremanagementsystem.interfaces.IRentalSlips;
+import bookstoremanagementsystem.models.Accounts;
+import bookstoremanagementsystem.models.Book;
 import bookstoremanagementsystem.models.BookAuthors;
-import bookstoremanagementsystem.models.OrderStatus;
+import bookstoremanagementsystem.models.Genres;
 import bookstoremanagementsystem.models.Orders;
+import bookstoremanagementsystem.models.Publishers;
+import bookstoremanagementsystem.models.RentalSlips;
 import bookstoremanagementsystem.services.AccountManager;
 import bookstoremanagementsystem.services.AuthorManager;
 import bookstoremanagementsystem.services.BookAuthorsManager;
+import bookstoremanagementsystem.services.BookManager;
 import bookstoremanagementsystem.services.GenresManager;
 import bookstoremanagementsystem.services.MenuManager;
 import bookstoremanagementsystem.services.MenuManager.LogInForm;
-import bookstoremanagementsystem.services.OrderStatusManager;
+import bookstoremanagementsystem.services.MenuManager.RegisterForm;
 import bookstoremanagementsystem.services.OrdersManager;
+import bookstoremanagementsystem.services.PublisherManager;
+import bookstoremanagementsystem.services.RentalSlipsManager;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
-//import bookstoremanagementsystem.models.CartItems;
-//import bookstoremanagementsystem.services.CartItemsManager;
-//import java.util.InputMismatchException;
-//import bookstoremanagementsystem.interfaces.IAccount;
-//import bookstoremanagementsystem.interfaces.IAuthors;
-//import bookstoremanagementsystem.interfaces.IGenres;
-//import bookstoremanagementsystem.interfaces.IMenu;
-//import bookstoremanagementsystem.models.BookAuthors;
-//import bookstoremanagementsystem.services.AccountManager;
-//import bookstoremanagementsystem.services.AuthorManager;
-//import bookstoremanagementsystem.services.BookAuthorsManager;
-//import bookstoremanagementsystem.services.GenresManager;
-//import bookstoremanagementsystem.services.MenuManager;
-//import bookstoremanagementsystem.services.MenuManager.LogInForm;
-//import java.util.Scanner;
-
-/**
- * Main class to manage carts and cart items.
- */
 public class BookStoreManagementSystem {
 
     public static void main(String[] args) {
 
-//        CartItemsManager manager = new CartItemsManager();
+        //Log in + Show menu for type account
+        Scanner sc = new Scanner(System.in);
+        int userChoice;
 
-//        try (Scanner scanner = new Scanner(System.in)) {
-//            int choice;
-//            
-//            do {
-//                System.out.println("\n=== CART ITEMS MANAGEMENT ===");
-//                System.out.println("1. Add Cart Item");
-//                System.out.println("2. Display Cart Items");
-//                System.out.println("3. Update Cart Item");
-//                System.out.println("4. Delete Cart Item");
-//                System.out.println("5. Save Cart Items to File");
-//                System.out.println("6. Load Cart Items from File");
-//                System.out.println("7. Search Cart Items");
-//                System.out.println("8. Exit");
-//                System.out.print("Enter your choice: ");
-//                
-//                // Xử lý nhập số nguyên an toàn
-//                while (true) {
-//                    try {
-//                        choice = scanner.nextInt();
-//                        scanner.nextLine(); // Consume newline
-//                        break;
-//                    } catch (InputMismatchException e) {
-//                        System.out.println("Invalid input! Please enter an integer.");
-//                        scanner.next(); // Xóa dữ liệu đầu vào không hợp lệ
-//                    }
-//                }
-//                
-//                switch (choice) {
-//                    case 1:
-//                        System.out.print("Enter Cart Item ID: ");
-//                        String id = scanner.nextLine();
-//                        if (manager.isCartItemIdExists(id)) {
-//                            System.out.println("Cart Item ID already exists! Please enter a unique ID.");
-//                            break;
-//                        }
-//                        System.out.print("Enter Cart ID: ");
-//                        String cartId = scanner.nextLine();
-//                        System.out.print("Enter Book ID: ");
-//                        String bookId = scanner.nextLine();
-//                        
-//                        int quantity = 0;
-//                        double price = 0.0;
-//                        
-//                        // Kiểm tra nhập số nguyên an toàn
-//                        while (true) {
-//                            try {
-//                                System.out.print("Enter Quantity: ");
-//                                quantity = scanner.nextInt();
-//                                scanner.nextLine(); // Consume newline
-//                                if (quantity < 1) {
-//                                    System.out.println("Quantity must be greater than 0. Try again!");
-//                                    continue;
-//                                }
-//                                break;
-//                            } catch (InputMismatchException e) {
-//                                System.out.println("Invalid input! Please enter a valid integer for quantity.");
-//                                scanner.next();
-//                            }
-//                        }
-//                        
-//                        // Kiểm tra nhập số thực an toàn
-//                        while (true) {
-//                            try {
-//                                System.out.print("Enter Price: ");
-//                                price = scanner.nextDouble();
-//                                scanner.nextLine();
-//                                if (price < 0) {
-//                                    System.out.println("Price must be a positive number. Try again!");
-//                                    continue;
-//                                }
-//                                break;
-//                            } catch (InputMismatchException e) {
-//                                System.out.println("Invalid input! Please enter a valid decimal number for price.");
-//                                scanner.next();
-//                            }
-//                        }
-//                        
-//                        manager.addCartItem(new CartItems(id, cartId, bookId, quantity, price));
-//                        break;
-//                        
-//                    case 2:
-//                        manager.displayCartItems();
-//                        break;
-//                        
-//                    case 3:
-//                        System.out.print("Enter Cart Item ID to update: ");
-//                        String updateID = scanner.nextLine();
-//                        if (!manager.isCartItemIdExists(updateID)) {
-//                            System.out.println("Cart Item ID not found!");
-//                            break;
-//                        }
-//                        
-//                        int newQuantity = 0;
-//                        double newPrice = 0.0;
-//                        
-//                        while (true) {
-//                            try {
-//                                System.out.print("Enter new Quantity: ");
-//                                newQuantity = scanner.nextInt();
-//                                scanner.nextLine();
-//                                if (newQuantity < 1) {
-//                                    System.out.println("Quantity must be greater than 0. Try again!");
-//                                    continue;
-//                                }
-//                                break;
-//                            } catch (InputMismatchException e) {
-//                                System.out.println("Invalid input! Please enter a valid integer for quantity.");
-//                                scanner.next();
-//                            }
-//                        }
-//                        
-//                        while (true) {
-//                            try {
-//                                System.out.print("Enter new Price: ");
-//                                newPrice = scanner.nextDouble();
-//                                scanner.nextLine();
-//                                if (newPrice < 0) {
-//                                    System.out.println("Price must be a positive number. Try again!");
-//                                    continue;
-//                                }
-//                                break;
-//                            } catch (InputMismatchException e) {
-//                                System.out.println("Invalid input! Please enter a valid decimal number for price.");
-//                                scanner.next();
-//                            }
-//                        }
-//                        
-//                        manager.updateCartItem(updateID, newQuantity, newPrice);
-//                        break;
-//                        
-//                    case 4:
-//                        System.out.print("Enter Cart Item ID to delete: ");
-//                        String deleteID = scanner.nextLine();
-//                        manager.deleteCartItem(deleteID);
-//                        break;
-//                        
-//                    case 5:
-//                        manager.saveCartItemsToFile();
-//                        break;
-//                        
-//                    case 6:
-//                        manager.loadCartItemsFromFile();
-//                        break;
-//                        
-//                    case 7:
-//                        System.out.print("Enter keyword to search: ");
-//                        String searchKeyword = scanner.nextLine();
-//                        manager.searchCartItems(searchKeyword);
-//                        break;
-//                        
-//                    case 8:
-//                        System.out.println("Exiting...");
-//                        break;
-//                        
-//                    default:
-//                        System.out.println("Invalid choice! Please try again.");
-//                }
-//            } while (choice != 8);
-//        }
-//        //Diem Tran Code main
-////        try (Scanner scanner = new Scanner(System.in)) {
-////            IAuthors authorManager = new AuthorManager();
-////
-////            int choice;
-////            String authorID, fullName, searchInput, newAuthorID, newFullName;
-////            do {
-////                System.out.println("**************************************");
-////                System.out.println("!! AUTHOR MANAGEMENT !!");
-////                System.out.println("1. Add Author");
-////                System.out.println("2. Display Authors");
-////                System.out.println("3. Sort by Author Name");
-////                System.out.println("4. Search Author");
-////                System.out.println("5. Delete Author");
-////                System.out.println("6. Edit Author");
-////                System.out.println("7. Exit");
-////                System.out.print("Enter Option (1-7): ");
-////                choice = scanner.nextInt();
-////                scanner.nextLine();
-////
-////                switch (choice) {
-////                    case 1:
-////                        System.out.print("Enter Author ID: ");
-////                        authorID = scanner.nextLine();
-////                        System.out.print("Enter Author Full Name: ");
-////                        fullName = scanner.nextLine();
-////                        authorManager.addAuthor(authorID, fullName);
-////                        break;
-////                    case 2:
-////                        authorManager.displayAuthors();
-////                        break;
-////                    case 3:
-////                        authorManager.sortAuthors();
-////                        break;
-////                    case 4:
-////                        System.out.print("Enter Author Name or ID to search: ");
-////                        searchInput = scanner.nextLine();
-////                        authorManager.searchAuthor(searchInput);
-////                        break;
-////                    case 5:
-////                        System.out.print("Enter Author Name or ID to delete: ");
-////                        searchInput = scanner.nextLine();
-////                        authorManager.deleteAuthor(searchInput);
-////                        break;
-////                    case 6:
-////                        System.out.print("Enter Author Name or ID to edit: ");
-////                        searchInput = scanner.nextLine();
-////                        System.out.print("Enter new Author ID: ");
-////                        newAuthorID = scanner.nextLine();
-////                        System.out.print("Enter new Author Full Name: ");
-////                        newFullName = scanner.nextLine();
-////                        authorManager.editAuthor(searchInput, newAuthorID, newFullName);
-////                        break;
-////                    case 7:
-////                        System.out.println("Exiting...");
-////                        authorManager.saveAuthorsToFile();
-////                        break;
-////                    default:
-////                        System.out.println("Invalid option. Try again.");
-////                }
-////            } while (choice != 7);
-////        }
-//
-//        //----------------------------------------------------------------------------
-//        //Tai Code main
-////        BookAuthorsManager service = new BookAuthorsManager();
-////
-////        // Adding authors
-////        service.addAuthor(new BookAuthors("1", "101", "201"));
-////        service.addAuthor(new BookAuthors("2", "102", "202"));
-////
-////        // Viewing authors
-////        service.view();
-////
-////        // Updating an author
-////        service.updateAuthor("1", new BookAuthors("1", "101", "203"));
-////
-////        // Viewing after update
-////        service.view();
-////
-////        // Deleting an author
-////        service.deleteAuthor("2");
-////
-////        // Viewing after delete
-////        service.view();
-//        //----------------------------------------------------------------------------
-//        //----------------------------------------------------------------------------
-//        //Nhu Code main
-////        IAccount accountManager = new AccountManager();
-////        accountManager.LoadAccountProfile();
-////        int acc = accountManager.LogIn("abc@example.com", "abc123");
-////        System.out.println("login " + acc);
-//        //Log in + Show menu for type account
-//        Scanner sc = new Scanner(System.in);
-//        int userChoice;
-//        try {
-//            IMenu menu = new MenuManager();
-//            IAccount accountManager = new AccountManager();
-//
-//            menu.showWelcomeMenu();
-//            userChoice = sc.nextInt();
-//            if (userChoice == 1) {
-//                LogInForm logInValue = menu.showLogInMenu();
-//                accountManager.LoadAccountProfile();
-//                int acc = accountManager.LogIn(logInValue.getEmail(), logInValue.getPassword());
-//
-//                //acc = 1 is admin log
-//                if (acc == 1) {
-//                    menu.showAdminMenu();
-//                    try {
-//                        userChoice = sc.nextInt();
-//                        if (userChoice == 4) {
-//                            IGenres genreManager = new GenresManager();
-//                            do {
-//                                menu.showGenreMainMenu();
-//                                genreManager.loadGenresFile();
-//                                userChoice = sc.nextInt();
-//                                switch (userChoice) {
-//                                    case 1:
-//                                        genreManager.showGenreList();
-//                                        break;
-//                                    case 2:
-//                                        genreManager.showGenreDetail();
-//                                        break;
-//                                    case 3:
-//                                        genreManager.createGenre();
-//                                        break;
-//                                    case 4:
-//                                        genreManager.updateGenre();
-//                                        break;
-//                                    case 5:
-//                                        genreManager.removeGenre();
-//                                        break;
-//                                }
-//                            } while (userChoice != 6);
-//
-//                        }
-//
-//                    } catch (Exception e) {
-//                        System.out.println(e);
-//                    }
-//
-//                } else if (acc == 0) {
-//                    menu.showUserMenu();
-//                } else {
-//                    System.out.printf("%10s\tEmail or password not true ", "");
-//                }
-//            } else {
-//
-//            }
-//
-//        } catch (Exception e) {
-//            System.out.println("Exception: " + e);
-//        }
-//
-//    
-// ------------------------------------
-// Ngoc Anh Code main
-//try (Scanner scanner = new Scanner(System.in)) {
-//            IBookGenres bookGenresManager = new BookGenresManager();
-//
-//            int choice;
-//            String bookGenresId, bookId, genreId;
-//            do {
-//                System.out.println("**************************************");
-//                System.out.println("!! BOOK GENRES MANAGEMENT !!");
-//                System.out.println("1. Add Book Genre");
-//                System.out.println("2. View Book Genres");
-//                System.out.println("3. Update Book Genre");
-//                System.out.println("4. Delete Book Genre");
-//                System.out.println("5. Exit");
-//                System.out.print("Enter Option (1-5): ");
-//                choice = scanner.nextInt();
-//                scanner.nextLine();
-//
-//                switch (choice) {
-//                    case 1:
-//                        System.out.print("Enter Book Genre ID: ");
-//                        bookGenresId = scanner.nextLine();
-//                        System.out.print("Enter Book ID: ");
-//                        bookId = scanner.nextLine();
-//                        System.out.print("Enter Genre ID: ");
-//                        genreId = scanner.nextLine();
-//                        bookGenresManager.addBookGenre(new BookGenres(bookGenresId, bookId, genreId));
-//                        break;
-//                    case 2:
-//                        bookGenresManager.view();
-//                        break;
-//                    case 3:
-//                        System.out.print("Enter Book Genre ID to update: ");
-//                        bookGenresId = scanner.nextLine();
-//                        System.out.print("Enter new Book ID: ");
-//                        bookId = scanner.nextLine();
-//                        System.out.print("Enter new Genre ID: ");
-//                        genreId = scanner.nextLine();
-//                        bookGenresManager.updateBookGenre(bookGenresId, new BookGenres(bookGenresId, bookId, genreId));
-//                        break;
-//                    case 4:
-//                        System.out.print("Enter Book Genre ID to delete: ");
-//                        bookGenresId = scanner.nextLine();
-//                        bookGenresManager.deleteBookGenre(bookGenresId);
-//                        break;
-//                    case 5:
-//                        System.out.println("Exiting...");
-//                        break;
-//                    default:
-//                        System.out.println("Invalid option. Try again.");
-//                }
-//            } while (choice != 5);
-//        }
-//        
-//        // ------------------------------------
-//        // My Code main
-//        Scanner scanner = new Scanner(System.in);
-//        AccountManager accountManager = new AccountManager();
-//
-//        int choice;
-//        do {
-//            System.out.println("\n=== ACCOUNT MANAGEMENT ===");
-//            System.out.println("1. Add Account");
-//            System.out.println("2. Display Accounts");
-//            System.out.println("3. Log In");
-//            System.out.println("4. Delete Account");
-//            System.out.println("5. Update Password");
-//            System.out.println("6. Exit");
-//            System.out.print("Enter your choice: ");
-//
-//            choice = scanner.nextInt();
-//            scanner.nextLine();
-//
-//            switch (choice) {
-//                case 1:
-//                    System.out.print("Enter Account ID: ");
-//                    String accountID = scanner.nextLine();
-//                    System.out.print("Enter Full Name: ");
-//                    String fullName = scanner.nextLine();
-//                    System.out.print("Enter Email: ");
-//                    String email = scanner.nextLine();
-//                    System.out.print("Enter Password: ");
-//                    String password = scanner.nextLine();
-//                    System.out.print("Enter Phone Number: ");
-//                    String phoneNumber = scanner.nextLine();
-//                    System.out.print("Enter Address: ");
-//                    String address = scanner.nextLine();
-//                    System.out.print("Enter Role (Admin/User): ");
-//                    String role = scanner.nextLine();
-//
-//                    accountManager.addAccount(accountID, fullName, email, password, phoneNumber, address, role);
-//                    break;
-//                case 2:
-//                    accountManager.displayAccounts();
-//                    break;
-//
-//                case 3:
-//                    System.out.print("Enter Email: ");
-//                    email = scanner.nextLine();
-//                    System.out.print("Enter Password: ");
-//                    password = scanner.nextLine();
-//                    int result = accountManager.LogIn(email, password);
-//                    if (result == 1) {
-//                        System.out.println("Login successful! Welcome, Admin.");
-//                    } else if (result == 0) {
-//                        System.out.println("Login successful! Welcome, User.");
-//                    } else {
-//                        System.out.println("Incorrect email or password.");
-//                    }
-//                    break;
-//                case 4:
-//                    System.out.print("Enter Email to delete: ");
-//                    email = scanner.nextLine();
-//                    accountManager.deleteAccount(email);
-//                    System.out.println("Account deleted successfully!");
-//                    break;
-//
-//                case 5:
-//                    System.out.print("Enter Email: ");
-//                    email = scanner.nextLine();
-//                    System.out.print("Enter New Password: ");
-//                    String newPassword = scanner.nextLine();
-//                    accountManager.updatePassword(email, newPassword);
-//                    System.out.println("Password updated successfully!");
-//                    break;
-//
-//                case 6:
-//                    System.out.println("Exiting Account Management...");
-//                    break;
-//
-//                default:
-//                    System.out.println("Invalid choice! Please try again.");
-//            }
-//        } while (choice != 6);
-//          //--------------------------------------------
-        BookingTransactionsManager bookingService = new BookingTransactionsManager();
-        RentalSlipTransactionsManager rentalService = new RentalSlipTransactionsManager();
+        IMenu menu = new MenuManager();
+        IAccount accountManager = new AccountManager();
+        IAuthors authorManager = new AuthorManager();
+        IBooks bookManager = new BookManager();
+        IGenres genreManager = new GenresManager();
+        IPublishers publisherManager = new PublisherManager();
+        IOrders orderManager = new OrdersManager();
+        IRentalSlips rentalSlipsManager = new RentalSlipsManager();
+        String emailLogin = "";
 
-        String inputFile = "input.txt";
-        String outputFile = "output.txt";
+        // loop main menu
+        while (true) {
+            menu.showWelcomeMenu();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(inputFile));
-             BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile, true))) { // Append mode
+            try {
+                userChoice = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                sc.nextLine();
+                continue;
+            }
 
-            int T = Integer.parseInt(br.readLine().trim()); // Number of commands
-            StringBuilder outputBuffer = new StringBuilder();
+            if (userChoice == 1) {
+                accountManager.LoadAccountProfile();
+                LogInForm logInValue = menu.showLogInMenu();
+                emailLogin = logInValue.getEmail();
+                int acc = accountManager.LogIn(logInValue.getEmail(), logInValue.getPassword());
 
-            for (int i = 0; i < T; i++) {
-                String[] command = br.readLine().split(" ", 3);
-                int choice = Integer.parseInt(command[0]);
+                //Admin menu
+                if (acc == 1) {
+                    boolean isAdminRunning = true;
+                    while (isAdminRunning) {
+                        menu.showAdminMenu();
+                        try {
+                            userChoice = sc.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                            sc.nextLine();
+                            continue;
+                        }
 
-                switch (choice) {
-                    case 1: // Add Booking Transaction
-                        bookingService.addBooking(command[1], command[2], outputBuffer);
-                        break;
-                    case 2: // View Booking Transactions
-                        bookingService.viewBookings(outputBuffer);
-                        break;
-                    case 3: // Delete Booking Transaction
-                        bookingService.deleteBooking(command[1], outputBuffer);
-                        break;
-                    case 4: // Add Rental Slip Transaction
-                        rentalService.addRentalSlip(command[1], command[2], outputBuffer);
-                        break;
-                    case 5: // View Rental Slip Transactions
-                        rentalService.viewRentalSlips(outputBuffer);
-                        break;
-                    case 6: // Delete Rental Slip Transaction
-                        rentalService.deleteRentalSlip(command[1], outputBuffer);
-                        break;
-                    default:
-                        outputBuffer.append("Invalid Command!\n");
+                        switch (userChoice) {
+                            // Account manager
+                            case 1:
+                                boolean isAccountMenuRunning = true;
+                                while (isAccountMenuRunning) {
+                                    menu.showAccountMainMenu();
+                                    accountManager.LoadAccountProfile();
+                                    try {
+                                        userChoice = sc.nextInt();
+                                    } catch (InputMismatchException e) {
+                                        System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                        sc.nextLine();
+                                        continue;
+                                    }
+
+                                    switch (userChoice) {
+                                        case 1:
+                                            accountManager.showAccountList();
+                                            break;
+                                        case 2:
+                                            List<Accounts> list = accountManager.searchAccount(menu.showAccountSearchForm());
+                                            accountManager.showAccountListByList(list);
+                                            break;
+                                        case 3:
+                                            RegisterForm registerValue = menu.showRegisterMenu();
+                                            accountManager.registerAccount(registerValue);
+                                            accountManager.LoadAccountProfile();
+                                            break;
+                                        case 4:
+                                            menu.showAccountUpdateForm();
+                                            accountManager.LoadAccountProfile();
+                                            break;
+                                        case 5:
+                                            isAccountMenuRunning = false;
+                                            break;
+                                        default:
+                                            System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                    }
+                                }
+                                break;
+                            case 2:
+                                boolean isBookMenuRunning = true;
+                                while (isBookMenuRunning) {
+                                    menu.showBooksMainMenu();
+                                    bookManager.loadBooks();
+                                    try {
+                                        userChoice = sc.nextInt();
+                                    } catch (InputMismatchException e) {
+                                        System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                        sc.nextLine();
+                                        continue;
+                                    }
+
+                                    switch (userChoice) {
+                                        case 1:
+                                            bookManager.showBookList();
+                                            break;
+                                        case 2:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Book ID: ", "");
+                                            String bookId = sc.nextLine();
+                                            Book book = bookManager.searchBookById(bookId);
+                                            if (book != null) {
+                                                bookManager.showBookDetails(book);
+                                            } else {
+                                                System.out.printf("%10sBook not found!\n", "");
+                                            }
+                                            break;
+                                        case 3:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter book name or keyword: ", "");
+                                            String keyword = sc.nextLine();
+                                            List<Book> results = bookManager.searchBooks(keyword);
+                                            bookManager.showBookSearchResults(results);
+                                            break;
+                                        case 4:
+                                            boolean exitCreateBook = false;
+                                            int currentYear = Year.now().getValue();
+                                            bookManager.loadBooks();
+                                            sc.nextLine();
+
+                                            System.out.printf("%10sAvailable Publishers:\n", "");
+                                            List<Publishers> publishers = publisherManager.GetPublisherList();
+                                            for (Publishers pub : publishers) {
+                                                System.out.printf("%10s-Id: %s\t|Name: %s\n", "", pub.getPublisherId(), pub.getPublisherName());
+                                            }
+
+                                            System.out.printf("%10sAvailable Genres:\n", "");
+                                            List<Genres> genres = genreManager.GetGenreList();
+                                            for (Genres gen : genres) {
+                                                System.out.printf("%10s-Id: %s\t|Name: %s\n", "", gen.getGenreId(), gen.getGenreName());
+                                            }
+
+                                            System.out.printf("%10sEnter Book ID: ", "");
+                                            String newId = sc.nextLine();
+
+                                            System.out.printf("%10sEnter Book Name: ", "");
+                                            String newName = sc.nextLine();
+
+                                            int year = currentYear;
+                                            System.out.printf("%10sEnter Published Year: ", "");
+                                            while (true) {
+                                                while (!sc.hasNextInt()) {
+                                                    System.out.printf("%10sInvalid input! Enter a valid year: ", "");
+                                                    sc.next();
+                                                }
+
+                                                year = sc.nextInt();
+                                                sc.nextLine();
+
+                                                if (year <= currentYear) {
+                                                    break;
+                                                } else {
+                                                    System.out.printf("%10sThe Published's Year cannot be in the future (%d or earlier): ", "", currentYear);
+                                                }
+                                            }
+
+                                            String publisherId = null;
+                                            boolean isValidPublisher = false;
+                                            while (!isValidPublisher) {
+                                                System.out.printf("%10sEnter Publisher ID: ", "");
+                                                publisherId = sc.nextLine();
+
+                                                for (Publishers pub : publishers) {
+                                                    if (pub.getPublisherId().equals(publisherId)) {
+                                                        isValidPublisher = true;
+                                                        break;
+                                                    }
+                                                }
+                                                if (isValidPublisher) {
+                                                    break;
+                                                }
+                                                System.out.printf("%10sInvalid Publisher ID! Try again or type 'exit' to cancel: ", "");
+                                                String exitOption = sc.nextLine();
+                                                if (exitOption.equalsIgnoreCase("exit")) {
+                                                    exitCreateBook = true;
+                                                    break;
+                                                }
+                                            }
+
+                                            if (exitCreateBook) {
+                                                break;
+                                            }
+
+                                            System.out.printf("%10sEnter Description: ", "");
+                                            String description = sc.nextLine();
+
+                                            System.out.printf("%10sEnter Language: ", "");
+                                            String language = sc.nextLine();
+
+                                            String genre = null;
+                                            boolean isValidGenre = false;
+
+                                            while (!isValidGenre) {
+                                                System.out.printf("%10sEnter Genre ID: ", "");
+                                                genre = sc.nextLine();
+                                                for (Genres gen : genres) {
+                                                    if (gen.getGenreId().equals(genre)) {
+                                                        isValidGenre = true;
+                                                        break;
+                                                    }
+                                                }
+                                                if (isValidGenre) {
+                                                    break;
+                                                }
+                                                System.out.printf("%10sInvalid Genre ID! Try again or type 'exit' to cancel: ", "");
+                                                String exitOption = sc.nextLine();
+                                                if (exitOption.equalsIgnoreCase("exit")) {
+                                                    exitCreateBook = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (exitCreateBook) {
+                                                break;
+                                            }
+
+                                            System.out.printf("%10sEnter Price: ", "");
+                                            while (!sc.hasNextDouble()) {
+                                                System.out.printf("%10sInvalid input! Enter a valid price: ", "");
+                                                sc.next();
+                                            }
+                                            double price = sc.nextDouble();
+                                            sc.nextLine();
+
+                                            Book newBook = new Book(newId, newName, year, publisherId, description, language, genre, price);
+                                            bookManager.addBook(newBook);
+                                            break;
+                                        case 5:
+                                            sc.nextLine();
+                                            bookManager.loadBooks();
+                                            System.out.printf("%10sEnter Book ID to update: ", "");
+                                            String updateId = sc.nextLine();
+                                            Book existingBook = bookManager.searchBookById(updateId);
+                                            if (existingBook != null) {
+                                                System.out.printf("%10sEnter New Book Name (press Enter to skip): ", "");
+                                                String updatedName = sc.nextLine();
+                                                if (!updatedName.isEmpty()) {
+                                                    existingBook.setBookName(updatedName);
+                                                }
+
+                                                System.out.printf("%10sEnter New Price (press Enter to skip): ", "");
+                                                String priceInput = sc.nextLine();
+                                                if (!priceInput.isEmpty()) {
+                                                    try {
+                                                        double updatedPrice = Double.parseDouble(priceInput);
+                                                        existingBook.setPrice(updatedPrice);
+                                                    } catch (NumberFormatException e) {
+                                                        System.out.printf("%10sInvalid price! Keeping the old value.\n", "");
+                                                    }
+                                                }
+                                                bookManager.updateBook(existingBook);
+                                            } else {
+                                                System.out.printf("%10sBook not found!\n", "");
+                                            }
+                                            break;
+                                        case 6:
+                                            sc.nextLine();
+                                            bookManager.loadBooks();
+                                            System.out.printf("%10sEnter Book ID to delete: ", "");
+                                            String deleteId = sc.nextLine();
+                                            bookManager.deleteBook(deleteId);
+                                            break;
+                                        case 7:
+                                            isBookMenuRunning = false;
+                                            break;
+                                        default:
+                                            System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                    }
+                                }
+                                break;
+
+                            case 3:
+                                boolean isAuthorMenuRunning = true;
+                                while (isAuthorMenuRunning) {
+                                    menu.showAuthorsMainMenu();
+                                    authorManager.loadAuthorsFromFile();
+
+                                    try {
+                                        userChoice = sc.nextInt();
+                                    } catch (InputMismatchException e) {
+                                        System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                        sc.nextLine();
+                                        continue;
+                                    }
+
+                                    switch (userChoice) {
+                                        case 1:
+                                            authorManager.displayAuthors();
+                                            break;
+                                        case 2:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Author ID:", "");
+                                            String authorId = sc.nextLine();
+                                            authorManager.searchAuthor(authorId);
+                                            break;
+                                        case 3:
+                                            sc.nextLine();
+                                            System.out.printf("%10s\tEnter Author ID: ", "");
+                                            String authorID = sc.nextLine();
+                                            System.out.printf("%10s\tEnter Full Name: ", "");
+                                            String fullName = sc.nextLine();
+                                            authorManager.addAuthor(authorID, fullName);
+                                            break;
+                                        case 4:
+                                            menu.showAuthorUpdateForm();
+                                            authorManager.loadAuthorsFromFile();
+                                            break;
+                                        case 5:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Author ID to delete:", "");
+                                            String deleteId = sc.nextLine();
+                                            authorManager.deleteAuthor(deleteId);
+                                            break;
+                                        case 6:
+                                            isAuthorMenuRunning = false;
+                                            break;
+                                        default:
+                                            System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                    }
+                                }
+                                break;
+
+                            case 4:
+                                boolean isGenreMenuRunning = true;
+                                while (isGenreMenuRunning) {
+                                    menu.showGenreMainMenu();
+                                    genreManager.loadGenresFile();
+                                    try {
+                                        userChoice = sc.nextInt();
+                                    } catch (InputMismatchException e) {
+                                        System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                        sc.nextLine();
+                                        continue;
+                                    }
+
+                                    switch (userChoice) {
+                                        case 1:
+                                            genreManager.showGenreList();
+                                            break;
+                                        case 2:
+                                            genreManager.showGenreDetail();
+                                            break;
+                                        case 3:
+                                            genreManager.createGenre();
+                                            break;
+                                        case 4:
+                                            genreManager.updateGenre();
+                                            break;
+                                        case 5:
+                                            genreManager.removeGenre();
+                                            break;
+                                        case 6:
+                                            isGenreMenuRunning = false;
+                                            break;
+                                        default:
+                                            System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                    }
+                                }
+                                break;
+                            case 5:
+                                boolean isPublisherMenuRunning = true;
+                                while (isPublisherMenuRunning) {
+                                    menu.showPublishersMainMenu();
+                                    publisherManager.loadPublishers();
+
+                                    try {
+                                        userChoice = sc.nextInt();
+                                    } catch (InputMismatchException e) {
+                                        System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                        sc.nextLine();
+                                        continue;
+                                    }
+
+                                    switch (userChoice) {
+                                        case 1:
+                                            publisherManager.showPublishers();
+                                            break;
+                                        case 2:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter keyword: ", "");
+                                            String searchDetail = sc.nextLine();
+                                            List<Publishers> results = publisherManager.searchPublisher(searchDetail);
+                                            publisherManager.showPublishersByList(results);
+                                            break;
+                                        case 3:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Publisher ID: ", "");
+                                            String id = sc.nextLine();
+                                            System.out.printf("%10sEnter Name: ", "");
+                                            String name = sc.nextLine();
+
+                                            Publishers publisher = new Publishers(id, name);
+                                            publisherManager.addPublisher(publisher);
+                                            break;
+                                        case 4:
+                                            sc.nextLine();
+                                            System.out.print("Enter Publisher ID to update: ");
+                                            String pubId = sc.nextLine();
+                                            Publishers existingPublisher = publisherManager.searchPublisherById(pubId);
+                                            if (existingPublisher == null) {
+                                                System.out.println("Publisher not found!");
+                                                continue;
+                                            }
+                                            System.out.print("Enter New Name: ");
+                                            String pubName = sc.nextLine();
+
+                                            existingPublisher.setPublisherName(pubName);
+                                            publisherManager.updatePublisher(existingPublisher);
+                                            publisherManager.loadPublishers();
+                                            break;
+                                        case 5:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Publisher ID to delete:", "");
+                                            String deleteId = sc.nextLine();
+                                            publisherManager.deletePublisher(deleteId);
+                                            break;
+                                        case 6:
+                                            isPublisherMenuRunning = false;
+                                            break;
+                                        default:
+                                            System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                    }
+                                }
+                                break;
+                            case 6:
+                                boolean isRentalMenuRunning = true;
+                                while (isRentalMenuRunning) {
+                                    menu.showRentalSlipsMainMenu();
+                                    rentalSlipsManager.loadRentalSlips();
+
+                                    try {
+                                        userChoice = sc.nextInt();
+                                    } catch (InputMismatchException e) {
+                                        System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                        sc.nextLine();
+                                        continue;
+                                    }
+
+                                    switch (userChoice) {
+                                        case 1:
+                                            rentalSlipsManager.showRentalSlips();
+                                            break;
+                                        case 2:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Rental Slip ID: ", "");
+                                            String rentalSlipId = sc.nextLine();
+                                            RentalSlips rentalSlipDetail = rentalSlipsManager.getRentalSlipById(rentalSlipId);
+                                            if (rentalSlipDetail != null) {
+                                                rentalSlipsManager.showRentalSlipDetails(rentalSlipDetail);
+                                            } else {
+                                                System.out.printf("%10sRental Slip not found!\n", "");
+                                            }
+                                            break;
+                                        case 3:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Rental Slip ID: ", "");
+                                            String newRentalSlipId = sc.nextLine();
+
+                                            System.out.printf("%10sEnter Customer Name: ", "");
+                                            String customerAccountId = sc.nextLine();
+
+                                            List<Book> availableBooksForRental = bookManager.getBooksList();
+                                            if (availableBooksForRental.isEmpty()) {
+                                                System.out.println("No books available for rental.");
+                                                break;
+                                            }
+
+                                            System.out.println("\nAvailable Books:");
+                                            for (Book book : availableBooksForRental) {
+                                                System.out.printf("Book ID: %s | Name: %s\n", book.getBookId(), book.getBookName());
+                                            }
+
+                                            System.out.printf("%10sEnter the number of books to rent: ", "");
+                                            int rentalBookCount;
+                                            try {
+                                                rentalBookCount = sc.nextInt();
+                                                sc.nextLine();
+                                            } catch (InputMismatchException e) {
+                                                System.out.println("Invalid input. Please enter a number.");
+                                                sc.nextLine();
+                                                break;
+                                            }
+
+                                            List<String> booksRentedList = new ArrayList<>();
+                                            for (int i = 0; i < rentalBookCount; i++) {
+                                                System.out.printf("%10sEnter Book ID #%d: ", "", (i + 1));
+                                                String bookId = sc.nextLine();
+
+                                                boolean bookExists = availableBooksForRental.stream()
+                                                        .anyMatch(book -> book.getBookId().equals(bookId));
+                                                if (!bookExists) {
+                                                    System.out.println("Invalid Book ID. Try again.");
+                                                    i--;
+                                                    continue;
+                                                }
+                                                booksRentedList.add(bookId);
+                                            }
+                                            String booksRented = String.join(", ", booksRentedList);
+
+                                            LocalDate startRentBookDate = LocalDate.now();
+                                            LocalDate createdAt = LocalDate.now();
+
+                                            System.out.printf("%10sEnter Rental End Date (yyyy-MM-dd): ", "");
+                                            LocalDate endRentBookDate;
+                                            try {
+                                                endRentBookDate = LocalDate.parse(sc.nextLine());
+                                                if (endRentBookDate.isBefore(startRentBookDate)) {
+                                                    System.out.println("End date cannot be before start date!");
+                                                    break;
+                                                }
+                                            } catch (DateTimeParseException e) {
+                                                System.out.println("Please enter in yyyy-MM-dd.");
+                                                break;
+                                            }
+
+                                            System.out.printf("%10sEnter Total Price: ", "");
+                                            double totalPrice;
+                                            try {
+                                                totalPrice = sc.nextDouble();
+                                                sc.nextLine();
+                                                if (totalPrice < 0) {
+                                                    System.out.println("Total price cannot be negative. Try again.");
+                                                    break;
+                                                }
+                                            } catch (InputMismatchException e) {
+                                                System.out.println("Invalid input. Please enter a valid number.");
+                                                sc.nextLine();
+                                                break;
+                                            }
+
+                                            RentalSlips newRentalSlip = new RentalSlips(
+                                                    newRentalSlipId, customerAccountId, booksRented,
+                                                    startRentBookDate, endRentBookDate, createdAt,
+                                                    totalPrice, "Active"
+                                            );
+
+                                            rentalSlipsManager.createRentalSlip(newRentalSlip);
+                                            System.out.println("Rental slip added successfully!");
+                                            break;
+                                        case 4:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Rental Slip ID to delete: ", "");
+                                            String deleteRentalSlipId = sc.nextLine();
+                                            rentalSlipsManager.deleteRentalSlip(deleteRentalSlipId);
+                                            break;
+                                        case 5:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Rental Slip ID to update status: ", "");
+                                            String updateRentalSlipId = sc.nextLine();
+                                            RentalSlips existingRentalSlip = rentalSlipsManager.getRentalSlipById(updateRentalSlipId);
+                                            if (existingRentalSlip == null) {
+                                                System.out.println("Rental Slip not found!");
+                                                continue;
+                                            }
+                                            System.out.printf("%10sEnter New Status: ", "");
+                                            String newStatus = sc.nextLine();
+                                            rentalSlipsManager.updateRentalStatus(updateRentalSlipId, newStatus);
+                                            break;
+                                        case 6:
+                                            isRentalMenuRunning = false;
+                                            break;
+                                        default:
+                                            System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                    }
+                                }
+                                break;
+
+                            case 7:
+                                boolean isOrderMenuRunning = true;
+                                while (isOrderMenuRunning) {
+                                    menu.showOrdersMainMenu();
+                                    orderManager.loadOrders();
+                                    try {
+                                        userChoice = sc.nextInt();
+                                    } catch (InputMismatchException e) {
+                                        System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                        sc.nextLine();
+                                        continue;
+                                    }
+
+                                    switch (userChoice) {
+                                        case 1:
+                                            orderManager.showOrderList();
+                                            break;
+                                        case 2:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Order ID: ", "");
+                                            String orderId = sc.nextLine();
+                                            Orders orderDetail = orderManager.getOrderById(orderId);
+                                            if (orderDetail != null) {
+                                                orderManager.showOrderDetails(orderDetail);
+                                            } else {
+                                                System.out.printf("%10sOrder not found!\n", "");
+                                            }
+                                            break;
+                                        case 3:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Order ID: ", "");
+                                            String newOrderId = sc.nextLine();
+                                            System.out.printf("%10sEnter Customer Name: ", "");
+                                            String customerId = sc.nextLine();
+
+                                            List<Book> availableBooks = bookManager.getBooksList();
+                                            if (availableBooks.isEmpty()) {
+                                                System.out.println("No books available.");
+                                                break;
+                                            }
+
+                                            System.out.println("\nAvailable Books:");
+                                            for (Book book : availableBooks) {
+                                                System.out.printf("Book ID: %s | Name: %s\n", book.getBookId(), book.getBookName());
+                                            }
+
+                                            System.out.printf("%10sEnter the number of books to order: ", "");
+                                            int bookCount;
+                                            try {
+                                                bookCount = sc.nextInt();
+                                                sc.nextLine();
+                                            } catch (InputMismatchException e) {
+                                                System.out.println("Invalid input. Please enter a number.");
+                                                sc.nextLine();
+                                                break;
+                                            }
+
+                                            List<String> booksOrderedList = new ArrayList<>();
+                                            for (int i = 0; i < bookCount; i++) {
+                                                System.out.printf("%10sEnter Book ID #%d: ", "", (i + 1));
+                                                String bookId = sc.nextLine();
+
+                                                boolean bookExists = availableBooks.stream().anyMatch(book -> book.getBookId().equals(bookId));
+                                                if (!bookExists) {
+                                                    System.out.println("Invalid Book ID. Try again.");
+                                                    i--;
+                                                    continue;
+                                                }
+                                                booksOrderedList.add(bookId);
+                                            }
+                                            String booksOrdered = String.join(", ", booksOrderedList);
+
+                                            Orders newOrder = new Orders(newOrderId, customerId, LocalDate.now(), booksOrdered, "Create");
+                                            orderManager.createOrder(newOrder);
+                                            break;
+                                        case 4:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Order ID to delete: ", "");
+                                            String deleteOrderId = sc.nextLine();
+                                            orderManager.deleteOrder(deleteOrderId);
+                                            break;
+                                        case 5:
+                                            sc.nextLine();
+                                            System.out.printf("%10sEnter Order ID to update status: ", "");
+                                            String updateOrderId = sc.nextLine();
+                                            Orders existingOrder = orderManager.getOrderById(updateOrderId);
+                                            if (existingOrder == null) {
+                                                System.out.println("Order not found!");
+                                                continue;
+                                            }
+                                            System.out.printf("%10sEnter New Status: ", "");
+                                            String newStatus = sc.nextLine();
+                                            orderManager.updateOrderStatus(updateOrderId, newStatus);
+                                            break;
+                                        case 6:
+                                            isOrderMenuRunning = false;
+                                            break;
+                                        default:
+                                            System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                                    }
+                                }
+                                break;
+
+                            case 8:
+                                isAdminRunning = false;
+                                break;
+
+                            default:
+                                System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                        }
+                    }
+                } else if (acc == 0) { //User menu
+                    boolean isUserRunning = true;
+                    while (isUserRunning) {
+                        menu.showUserMenu();
+                        try {
+                            userChoice = sc.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                            sc.nextLine();
+                            continue;
+                        }
+
+                        switch (userChoice) {
+                            case 1:
+                                Accounts user = accountManager.searchAccountByEmail(emailLogin);
+                                accountManager.showAccountDetails(user);
+                                break;
+                            case 2:
+                                menu.showAccountUpdateForm();
+                                accountManager.LoadAccountProfile();
+                                break;
+                            case 3:
+                                bookManager.showBookList();
+                                break;
+                            case 4:
+                                isUserRunning = false;
+                                break;
+                            default:
+                                System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
+                        }
+                    }
+                } else {
+                    System.out.printf("%10s\tEmail or password incorrect.\n", "");
                 }
+            } else if (userChoice == 2) {
+                accountManager.LoadAccountProfile();
+                RegisterForm registerValue = menu.showRegisterMenu();
+                accountManager.registerAccount(registerValue);
+            } else if (userChoice == 3) {
+                System.out.printf("%10s\tShutting down the system. Goodbye!\n", "");
+                System.exit(0);
+            } else {
+                System.out.printf("%10s\tInvalid choice. Please try again.\n", "");
             }
-            bw.write(outputBuffer.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-
-/// Diem tran code 
-CartManager cartManager = new CartManager();
-        try (Scanner scanner = new Scanner(System.in)) {
-            int choice;
-            do {
-                System.out.println("\n=== CART MANAGEMENT ===");
-                System.out.println("1. Add Cart");
-                System.out.println("2. View All Carts");
-                System.out.println("3. Add Item to Cart");
-                System.out.println("4. View Items in a Cart");
-                System.out.println("5. Update Cart Item");
-                System.out.println("6. Remove Item from Cart");
-                System.out.println("7. Delete a Cart");
-                System.out.println("8. Exit");
-                System.out.print("Enter your choice: ");
-                choice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
-                
-                switch (choice) {
-                    case 1: // Add a new cart
-                        System.out.print("Enter Cart ID: ");
-                        String cartId = scanner.nextLine();
-                        System.out.print("Enter Account ID: ");
-                        String accountId = scanner.nextLine();
-                        cartManager.addCart(new Carts(cartId, accountId)); 
-                        break;
-                        
-                    case 2: // View all carts
-                        cartManager.viewAllCarts();
-                        break;
-                        
-                    case 3: // Add item to a cart
-                        System.out.print("Enter Cart ID: ");
-                        cartId = scanner.nextLine();
-                        if (!cartManager.isCartExists(cartId)) {
-                            System.out.println("Cart not found!");
-                            break;
-                        }
-                        System.out.print("Enter Item ID: ");
-                        String itemId = scanner.nextLine();
-                        System.out.print("Enter Book ID: ");
-                        String bookId = scanner.nextLine();
-                        System.out.print("Enter Quantity: ");
-                        int quantity = scanner.nextInt();
-                        scanner.nextLine(); 
-                        System.out.print("Enter Price: ");
-                        double price = scanner.nextDouble();
-                        scanner.nextLine(); 
-                        cartManager.addItemToCart(cartId, new CartItems(itemId, cartId, bookId, quantity, price));
-                        break;
-                        
-                    case 4: 
-                        System.out.print("Enter Cart ID: ");
-                        cartId = scanner.nextLine();
-                        cartManager.viewItemsInCart(cartId);
-                        break;
-                        
-                    case 5: 
-                        System.out.print("Enter Cart ID: ");
-                        cartId = scanner.nextLine();
-                        if (!cartManager.isCartExists(cartId)) {
-                            System.out.println("Cart not found!");
-                            break;
-                        }
-                        System.out.print("Enter Item ID to update: ");
-                        itemId = scanner.nextLine();
-                        System.out.print("Enter new Quantity: ");
-                        quantity = scanner.nextInt();
-                        scanner.nextLine(); 
-                        System.out.print("Enter new Price: ");
-                        price = scanner.nextDouble();
-                        scanner.nextLine(); 
-                        cartManager.updateCartItem(cartId, itemId, quantity, price);
-                        break;
-                        
-                    case 6: 
-                        System.out.print("Enter Cart ID: ");
-                        cartId = scanner.nextLine();
-                        if (!cartManager.isCartExists(cartId)) {
-                            System.out.println("Cart not found!");
-                            break;
-                        }
-                        System.out.print("Enter Item ID to remove: ");
-                        itemId = scanner.nextLine();
-                        cartManager.removeItemFromCart(cartId, itemId);
-                        break;
-                        
-                    case 7:
-                        System.out.print("Enter Cart ID to delete: ");
-                        cartId = scanner.nextLine();
-                        cartManager.deleteCart(cartId);
-                        break;
-                        
-                    case 8:
-                        System.out.println("Exiting...");
-                        break;
-                        
-                    default:
-                        System.out.println("Invalid choice! Please try again.");
-                }
-            } while (choice != 8);
-          
-          // my code 
-          OrdersManager ordersManager = new OrdersManager();
-        OrderStatusManager statusManager = new OrderStatusManager();
-        Scanner scanner = new Scanner(System.in);
-        int choice;
-
-        do {
-            System.out.println("\n=== ORDER MANAGEMENT ===");
-            System.out.println("1. Add Order");
-            System.out.println("2. Display Orders");
-            System.out.println("3. Update Order");
-            System.out.println("4. Delete Order");
-            System.out.println("5. Add Order Status");
-            System.out.println("6. Display Order Statuses");
-            System.out.println("7. Update Order Status");
-            System.out.println("8. Delete Order Status");
-            System.out.println("9. Exit");
-            System.out.print("Enter your choice: ");
-            
-            while (!scanner.hasNextInt()) {
-                System.out.println("Invalid input! Please enter a number between 1 and 9.");
-                scanner.next(); // Consume invalid input
-            }
-            
-            choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter Order ID: ");
-                    String orderId = scanner.nextLine();
-                    System.out.print("Enter Customer ID: ");
-                    String customerId = scanner.nextLine();
-                    System.out.print("Enter Order Status ID: ");
-                    String statusId = scanner.nextLine();
-                    Orders order = new Orders(orderId, customerId, new Date(), statusId);
-                    ordersManager.addOrder(order);
-                    break;
-                case 2:
-                    ordersManager.displayOrders();
-                    break;
-                case 3:
-                    System.out.print("Enter Order ID to update: ");
-                    String updateId = scanner.nextLine();
-                    System.out.print("Enter new Customer ID: ");
-                    String newCustomerId = scanner.nextLine();
-                    System.out.print("Enter new Status ID: ");
-                    String newStatusId = scanner.nextLine();
-                    Orders updatedOrder = new Orders(updateId, newCustomerId, new Date(), newStatusId);
-                    ordersManager.updateOrder(updateId, updatedOrder);
-                    break;
-                case 4:
-                    System.out.print("Enter Order ID to delete: ");
-                    String deleteId = scanner.nextLine();
-                    ordersManager.deleteOrder(deleteId);
-                    break;
-                case 5:
-                    System.out.print("Enter Status ID: ");
-                    String statusID = scanner.nextLine();
-                    System.out.print("Enter Status Name: ");
-                    String statusName = scanner.nextLine();
-                    OrderStatus status = new OrderStatus(statusID, statusName);
-                    statusManager.addStatus(status);
-                    break;
-                case 6:
-                    statusManager.displayStatuses();
-                    break;
-                case 7:
-                    System.out.print("Enter Status ID to update: ");
-                    String updateStatusID = scanner.nextLine();
-                    System.out.print("Enter new Status Name: ");
-                    String newStatusName = scanner.nextLine();
-                    OrderStatus updatedStatus = new OrderStatus(updateStatusID, newStatusName);
-                    statusManager.updateStatus(updateStatusID, updatedStatus);
-                    break;
-                case 8:
-                    System.out.print("Enter Status ID to delete: ");
-                    String deleteStatusID = scanner.nextLine();
-                    statusManager.deleteStatus(deleteStatusID);
-                    break;
-                case 9:
-                    System.out.println("Exiting...");
-                    break;
-                default:
-                    System.out.println("Invalid choice! Please enter a number between 1 and 9.");
-            }
-        } while (choice != 9);
         }
+
     }
 }

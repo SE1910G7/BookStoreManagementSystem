@@ -5,11 +5,13 @@
  */
 package bookstoremanagementsystem.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author mummykiara
  */
-public class CartItems {
+public class CartItems implements Serializable{
 
     String cartItemId;
     String cartId;

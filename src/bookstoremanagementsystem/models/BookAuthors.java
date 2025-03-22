@@ -5,11 +5,13 @@
  */
 package bookstoremanagementsystem.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author mummykiara
  */
-public class BookAuthors {
+public class BookAuthors implements Serializable {
 
     String bookAuthorId;
     String bookID;

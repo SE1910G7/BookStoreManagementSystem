@@ -6,6 +6,7 @@
 package bookstoremanagementsystem.interfaces;
 
 import bookstoremanagementsystem.models.Accounts;
+import bookstoremanagementsystem.services.MenuManager;
 import java.util.List;
 
 /**
@@ -13,6 +14,28 @@ import java.util.List;
  * @author mummykiara
  */
 public interface IAccount {
+
     public void LoadAccountProfile();
+
     public int LogIn(String email, String password);
+
+    public void registerAccount(MenuManager.RegisterForm registerForm);
+
+    public void saveToFile();
+
+    public void showAccountList();
+
+    public List<Accounts> searchAccount(String searchDetail);
+
+    public Accounts searchAccountByEmail(String email);
+
+    public void showAccountListByList(List<Accounts> list);
+
+    public void UpdateAccount(Accounts model);
+
+    void showAccountDetails(Accounts account);
+
+    public boolean isvalidPhoneNumber(String phoneNumber);
+
+    public boolean isvalidEmail(String email);
 }

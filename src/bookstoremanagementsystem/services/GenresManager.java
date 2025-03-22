@@ -181,4 +181,21 @@ public class GenresManager implements IGenres {
         System.out.println("Genre ID not found.");
     }
 
+    @Override
+    public Genres searchGenreById(String id) {
+       loadGenresFile();
+        for (Genres g : genreList) {
+            if (g.getGenreId().equalsIgnoreCase(id)) {
+                return g;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Genres> GetGenreList() {
+        loadGenresFile();
+        return genreList;
+    }
+
 }

@@ -1,9 +1,10 @@
 package bookstoremanagementsystem.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Carts {
+public class Carts implements Serializable{
 
     String cartId;
     String accountId;

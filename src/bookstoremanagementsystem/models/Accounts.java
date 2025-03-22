@@ -5,13 +5,14 @@
  */
 package bookstoremanagementsystem.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *
- * @author mummykiara
+ * @author nhulnt
  */
-public class Accounts {
+public class Accounts implements Serializable{
 
     String accountID;
     String fullName;
@@ -97,4 +98,10 @@ public class Accounts {
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
+
+    @Override
+    public String toString() {
+        return "Accounts{" + "accountID=" + accountID + ", fullName=" + fullName + ", email=" + email + ", password=" + password + ", phoneNumber=" + phoneNumber + ", address=" + address + ", role=" + role + ", createdAt=" + createdAt + '}';
+    }
+    
 }

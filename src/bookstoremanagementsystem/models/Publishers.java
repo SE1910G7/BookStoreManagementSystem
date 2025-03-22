@@ -5,19 +5,35 @@
  */
 package bookstoremanagementsystem.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author mummykiara
  */
-public class Publishers {
+public class Publishers implements Serializable {
 
     String publisherId;
     String publisherName;
-    boolean isActive;
 
-    public Publishers(String publisherId, String publisherName, boolean isActive) {
+    public Publishers(String publisherId, String publisherName) {
         this.publisherId = publisherId;
         this.publisherName = publisherName;
-        this.isActive = isActive;
+    }
+
+    public String getPublisherId() {
+        return publisherId;
+    }
+
+    public void setPublisherId(String publisherId) {
+        this.publisherId = publisherId;
+    }
+
+    public String getPublisherName() {
+        return publisherName;
+    }
+
+    public void setPublisherName(String publisherName) {
+        this.publisherName = publisherName;
     }
 }

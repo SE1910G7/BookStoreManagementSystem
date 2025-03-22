@@ -5,13 +5,14 @@
  */
 package bookstoremanagementsystem.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *
  * @author mummykiara
  */
-public class Transactions {
+public class Transactions implements Serializable{
 
     String transactionid;
     String customerName;
