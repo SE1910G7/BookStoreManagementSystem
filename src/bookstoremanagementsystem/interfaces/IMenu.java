@@ -43,5 +43,8 @@ public interface IMenu {
     
      //publisher manager menu
      public void showPublishersMainMenu();
+     
+     //book manager menu
+     public void showBooksMainMenu();
 
 }

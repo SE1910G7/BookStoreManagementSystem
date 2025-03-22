@@ -22,4 +22,5 @@ public interface IPublishers {
     Publishers searchPublisherById(String publisherId);
     void saveToFile();
     void showPublishersByList(List<Publishers> list);
+    List<Publishers> GetPublisherList();
 }

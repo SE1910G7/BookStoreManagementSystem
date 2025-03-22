@@ -146,4 +146,10 @@ public class PublisherManager implements IPublishers {
             System.out.printf("%10s-------------------------------------------------------------\n", "");
         }
     }
+
+    @Override
+    public List<Publishers> GetPublisherList() {
+        loadPublishers();
+        return publisherList;
+    }
 }

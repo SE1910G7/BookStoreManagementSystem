@@ -256,6 +256,25 @@ public class MenuManager implements IMenu {
         System.out.printf("%10s\tEnter choice: ", "");
     }
 
+    @Override
+    public void showBooksMainMenu() {
+        System.out.printf("\n\n%10s*************************************************************\n", "");
+        System.out.printf("%10s*%59s*\n", "", "");
+        System.out.printf("%10s*------------------!! BOOK STORE MANAGER !!-----------------*\n", "");
+        System.out.printf("%10s*%59s*\n", "", "");
+        System.out.printf("%10s*%19s||%3sBooks Manager%3s||%18s*\n", "", "", "", "", "");
+        System.out.printf("%10s*************************************************************\n", "");
+        System.out.printf("%10s*\t1. Book List%42s*\n", "", "");
+        System.out.printf("%10s*\t2. Book Detail%40s*\n", "", "");
+        System.out.printf("%10s*\t3. Search Book%40s*\n", "", "");
+        System.out.printf("%10s*\t4. Add New Book%39s*\n", "", "");
+        System.out.printf("%10s*\t5. Update Book%40s*\n", "", "");
+        System.out.printf("%10s*\t6. Delete Book%40s*\n", "", "");
+        System.out.printf("%10s*\t7. Back to main menu%34s*\n", "", "");
+        System.out.printf("%10s*************************************************************\n", "");
+        System.out.printf("%10s\tEnter choice: ", "");
+    }
+
     public class LogInForm {
 
         private String Email;

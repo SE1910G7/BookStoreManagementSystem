@@ -6,6 +6,7 @@
 package bookstoremanagementsystem.interfaces;
 
 import bookstoremanagementsystem.models.Genres;
+import java.util.List;
 
 /**
  *
@@ -19,4 +20,6 @@ public interface IGenres {
     public void updateGenre();
     public void removeGenre();
     public void showGenreDetail();
+    public Genres searchGenreById(String id);
+    List<Genres> GetGenreList();
 }
