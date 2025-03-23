@@ -110,7 +110,7 @@ public class MenuManager implements IMenu {
             System.out.printf("%10s\tEnter Email: ", "");
             email = scanner.nextLine();
             if (!accManager.isvalidEmail(email)) {
-                System.out.println("Please enter a valid email.");
+                System.out.printf("%10sPlease enter a valid email!\n", "");
             }
         } while (!accManager.isvalidEmail(email));
         System.out.printf("%10s\tEnter Password: ", etc);
@@ -120,7 +120,7 @@ public class MenuManager implements IMenu {
             System.out.printf("%10s\tEnter Phone Number: ", "");
             phoneNumber = scanner.nextLine();
             if (!accManager.isvalidPhoneNumber(phoneNumber)) {
-                System.out.println("Please enter a valid phone number.");
+                 System.out.printf("%10sPlease enter a valid phone number!\n", "");
             }
         } while (!accManager.isvalidPhoneNumber(phoneNumber));
         System.out.printf("%10s\tEnter Address: ", etc);
@@ -162,7 +162,7 @@ public class MenuManager implements IMenu {
         String searchDetail = scanner.nextLine();
         Accounts acc = accountManagement.searchAccountByEmail(searchDetail);
 
-        if (acc == null) {
+        if (acc == null || acc.getRole().equals("Admin")) {
             System.out.printf("%10sNo accounts found!", "");
             return;
         } else {
@@ -234,7 +234,7 @@ public class MenuManager implements IMenu {
             System.out.printf("%10sNo author found with ID: %s\n", "", authorID);
             return;
         } else {
-            System.out.printf("%10s----- Press Enter if you do not want to change that data -----", etc);
+            System.out.printf("%10s----- Press Enter if you do not want to change that data -----\n", etc);
 
             System.out.printf("%10s\tEnter Full Name [%s]: ", "", author.getFullName());
             String fullName = scanner.nextLine().trim();
@@ -245,7 +245,6 @@ public class MenuManager implements IMenu {
             author.setFullName(fullName);
 
             authorManager.updateAuthor(author);
-            System.out.printf("%10sAuthor updated successfully!\n", "");
         }
     }
 

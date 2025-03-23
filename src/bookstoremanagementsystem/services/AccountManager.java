@@ -145,7 +145,7 @@ public class AccountManager implements IAccount {
         LocalDate createdAt = LocalDate.now();
         accountsList.add(new Accounts(registerForm.getAccountID(), registerForm.getFullName(), registerForm.getEmail(), registerForm.getPassword(), registerForm.getPhoneNumber(), registerForm.getAddress(), "User", createdAt));
         saveToFile();
-        System.out.println("Account added successfully!");
+        System.out.printf("%10sAccount added successfully!", "");
     }
 
     @Override
