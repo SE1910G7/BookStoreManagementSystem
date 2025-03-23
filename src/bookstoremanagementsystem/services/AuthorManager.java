@@ -115,7 +115,7 @@ public class AuthorManager implements IAuthors {
             }
         }
         if (!found) {
-            System.out.println("Author not found.");
+            System.out.printf("%10sAuthor not found.!\n", "");
         } else {
             saveAuthorsToFile();
         }

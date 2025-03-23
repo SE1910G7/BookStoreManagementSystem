@@ -57,7 +57,7 @@ public class OrdersManager implements IOrders {
         loadOrders();
         orderList.add(order);
         saveToFile();
-        System.out.println("Order created successfully!");
+        System.out.printf("%10sOrder created successfully!\n", "");
     }
 
     @Override
@@ -84,11 +84,11 @@ public class OrdersManager implements IOrders {
             if (order.getOrderId().equalsIgnoreCase(orderId)) {
                 order.setStatusId(newStatus);
                 saveToFile();
-                System.out.println("Order status updated successfully!");
+                System.out.printf("%10sOrder status updated successfully!\n", "");
                 return;
             }
         }
-        System.out.println("Order not found.");
+        System.out.printf("%10sOrder not found!\n", "");
     }
 
     @Override
@@ -97,9 +97,9 @@ public class OrdersManager implements IOrders {
         boolean removed = orderList.removeIf(order -> order.getOrderId().equalsIgnoreCase(orderId));
         if (removed) {
             saveToFile();
-            System.out.println("Order deleted successfully!");
+            System.out.printf("%10sOrder deleted successfully!\n", "");
         } else {
-            System.out.println("Order not found.");
+            System.out.printf("%10sOrder not found!\n", "");
         }
     }
 

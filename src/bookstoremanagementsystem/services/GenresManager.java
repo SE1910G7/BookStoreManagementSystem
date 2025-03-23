@@ -110,80 +110,96 @@ public class GenresManager implements IGenres {
             return;
         }
 
-        System.out.print("Enter Genre ID to update: ");
+        System.out.printf("%10sEnter Genre ID to update: ", "");
         String gId = sc.nextLine();
 
         for (Genres genre : genreList) {
             if (genre.getGenreId().equalsIgnoreCase(gId)) {
-                System.out.print("Enter new Genre Name (leave blank to keep current): ");
+                System.out.printf("\n\n%10s*************************************************************\n", "");
+                System.out.printf("%10s*%59s*\n", "", "");
+                System.out.printf("%10s*------------------!! UPDATE GENRE !!------------------*\n", "");
+                System.out.printf("%10s*%59s*\n", "", "");
+                System.out.printf("%10s*************************************************************\n", "");
+                System.out.printf("%10s| %-15s: %-40s |\n", "", "Genre ID", genre.getGenreId());
+                System.out.printf("%10s| %-15s: %-40s |\n", "", "Current Name", genre.getGenreName());
+                System.out.printf("%10s| %-15s: %-40s |\n", "", "Current Description", genre.getDescription());
+
+                System.out.printf("%10s-------------------------------------------------------------\n", "");
+                System.out.printf("\n%10sEnter new Genre Name (leave blank to keep current): ", "");
                 String newName = sc.nextLine();
                 if (!newName.isEmpty()) {
                     genre.setGenreName(newName);
                 }
-
-                System.out.print("Enter new Description (leave blank to keep current): ");
+                System.out.printf("%10sEnter new Description (leave blank to keep current): ", "");
                 String newDesc = sc.nextLine();
                 if (!newDesc.isEmpty()) {
                     genre.setDescription(newDesc);
                 }
-
-                System.out.println("Genre updated successfully!");
+                System.out.printf("\n%10s*************************************************************\n", "");
+                System.out.printf("%10s*                Genre updated successfully!                *\n", "");
+                System.out.printf("%10s*************************************************************\n", "");
                 saveGenresFile();
                 return;
             }
         }
 
-        System.out.println("Genre ID not found.");
+        System.out.printf("\n%10s*************************************************************\n", "");
+        System.out.printf("%10s*               Genre ID not found. Try again.               *\n", "");
+        System.out.printf("%10s*************************************************************\n", "");
     }
 
     @Override
     public void removeGenre() {
         if (genreList.isEmpty()) {
-            System.out.println("No genres available to remove.");
+            System.out.printf("%10sNo genres available to remove.", "");
             return;
         }
-        
-        System.out.print("Enter Genre ID to remove: ");
+
+        System.out.printf("%10sEnter Genre ID to remove: ", "");
         String gId = sc.nextLine();
-        
+
         for (Genres genre : genreList) {
             if (genre.getGenreId().equalsIgnoreCase(gId)) {
                 genreList.remove(genre);
-                System.out.println("Genre removed successfully!");
+                System.out.printf("%10sGenre removed successfully!", "");
                 saveGenresFile();
                 return;
             }
         }
-        
-        System.out.println("Genre ID not found.");
+        System.out.printf("%10sGenre ID not found!", "");
     }
 
     @Override
     public void showGenreDetail() {
         if (genreList.isEmpty()) {
-            System.out.println("No genres available.");
+            System.out.printf("%10sNo genres available.", "");
             return;
         }
-        
-        System.out.print("Enter Genre ID to view details: ");
+        System.out.printf("%10sEnter Genre ID to view details: ", "");
         String gId = sc.nextLine();
-        
+
         for (Genres genre : genreList) {
             if (genre.getGenreId().equalsIgnoreCase(gId)) {
-                System.out.println("\nGenre Details:");
-                System.out.println("ID: " + genre.getGenreId());
-                System.out.println("Name: " + genre.getGenreName());
-                System.out.println("Description: " + genre.getDescription());
+                System.out.printf("\n\n%10s*************************************************************\n", "");
+                System.out.printf("%10s*%59s*\n", "", "");
+                System.out.printf("%10s*------------------!! GENRE DETAILS !!------------------*\n", "");
+                System.out.printf("%10s*%59s*\n", "", "");
+                System.out.printf("%10s*************************************************************\n", "");
+
+                System.out.printf("%10s| %-15s: %-40s |\n", "", "Genre ID", genre.getGenreId());
+                System.out.printf("%10s| %-15s: %-40s |\n", "", "Name", genre.getGenreName());
+                System.out.printf("%10s| %-15s: %-40s |\n", "", "Description", genre.getDescription());
+
+                System.out.printf("%10s*************************************************************\n", "");
                 return;
             }
         }
-        
-        System.out.println("Genre ID not found.");
+        System.out.printf("%10sGenre ID not found.", "");
     }
 
     @Override
     public Genres searchGenreById(String id) {
-       loadGenresFile();
+        loadGenresFile();
         for (Genres g : genreList) {
             if (g.getGenreId().equalsIgnoreCase(id)) {
                 return g;
