@@ -321,6 +321,52 @@ public class MenuManager implements IMenu {
         System.out.printf("%10s\tEnter choice: ", "");
     }
 
+    @Override
+    public void showUserUpdateForm(String email) {
+        IAccount accountManagement = new AccountManager();
+        Scanner scanner = new Scanner(System.in);
+        Accounts acc = accountManagement.searchAccountByEmail(email);
+
+        if (acc == null || acc.getRole().equals("Admin")) {
+            System.out.printf("%10sNo accounts found!", "");
+            return;
+        } else {
+            System.out.printf("%10s----- Press Enter if you do not want to change that data -----\n", etc);
+
+            System.out.printf("%10s\tEnter Full Name [%s]: ", etc, acc.getFullName());
+            String fullName = scanner.nextLine().trim();
+            if (fullName.isEmpty()) {
+                fullName = acc.getFullName();
+            }
+
+            System.out.printf("%10s\tEnter Email [%s]: ", etc, acc.getEmail());
+            String mail = scanner.nextLine().trim();
+            if (mail.isEmpty()) {
+                mail = acc.getEmail();
+            }
+
+            System.out.printf("%10s\tEnter Phone Number [%s]: ", etc, acc.getPhoneNumber());
+            String phoneNumber = scanner.nextLine().trim();
+            if (phoneNumber.isEmpty()) {
+                phoneNumber = acc.getPhoneNumber();
+            }
+
+            System.out.printf("%10s\tEnter Address [%s]: ", etc, acc.getAddress());
+            String address = scanner.nextLine().trim();
+            if (address.isEmpty()) {
+                address = acc.getAddress();
+            }
+
+            acc.setFullName(fullName);
+            acc.setEmail(mail);
+            acc.setPhoneNumber(phoneNumber);
+            acc.setAddress(address);
+
+            accountManagement.UpdateAccount(acc);
+
+        }
+    }
+
     public class LogInForm {
 
         private String Email;

@@ -747,7 +747,7 @@ public class BookStoreManagementSystem {
                                 accountManager.showAccountDetails(user);
                                 break;
                             case 2:
-                                menu.showAccountUpdateForm();
+                                menu.showUserUpdateForm(emailLogin);
                                 accountManager.LoadAccountProfile();
                                 break;
                             case 3:

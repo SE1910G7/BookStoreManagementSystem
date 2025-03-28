@@ -35,6 +35,7 @@ public interface IMenu {
     public String showAccountSearchForm();
 
     public void showAccountUpdateForm();
+    public void showUserUpdateForm(String email);
 
     //author manager menu
     public void showAuthorsMainMenu();
